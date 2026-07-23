@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="제휴 매장당 월 1회 무료 마케팅을 사장님이 앱에서 직접 운영하게 만든 백엔드 사례">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+  <title>사장님 셀프마케팅 — 한재혁</title>
+</head>
+<body>
+  <a class="skip" href="#main">본문으로 건너뛰기</a>
+  <header>
+    <nav class="global-nav" aria-label="글로벌 탐색"><div class="nav-inner"><a class="brand" href="index.html">JH</a><div class="nav-links"><a href="index.html#work">Work</a><a href="index.html#principles">Principles</a><a href="https://github.com/Jh-jaehyuk" target="_blank" rel="noreferrer">GitHub</a></div></div></nav>
+    <nav class="sub-nav" aria-label="사례 탐색"><div class="sub-nav-inner"><a class="sub-title" href="index.html">한재혁</a><div class="sub-links"><a href="index.html#work">모든 사례</a><a class="button button--primary" href="resume-public.pdf">이력서</a></div></div></nav>
+  </header>
+
+  <main id="main">
+    <section class="section hero hero--case">
+      <div class="container">
+        <div>
+          <p class="eyebrow">Case 02 · Product system</p>
+          <h1>제휴 매장당 월 1회 무료 마케팅을, 사장님이 앱에서 직접 운영하게 만들다.</h1>
+          <p class="lead">사장님 앱 리뉴얼의 경쟁 포인트를 시간과 상태로 움직이는 백엔드 운영 시스템으로 구현했습니다.</p>
+        </div>
+        <dl class="stat-stack">
+          <div><dt>Benefit</dt><dd>매장당 월 1회</dd></div>
+          <div><dt>Flow</dt><dd>7단계 상태</dd></div>
+          <div><dt>Status</dt><dd>앱 연동·QA 진행</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="section section--parchment">
+      <div class="reading">
+        <p class="eyebrow">Business context</p>
+        <h2>제휴의 가치를 사장님이 직접 체감할 기능이 필요했습니다.</h2>
+        <p>셀프마케팅은 사장님 앱 리뉴얼에 추가되는 기능입니다. 데이트팝과 제휴한 매장은 매달 한 번 무료 마케팅을 신청하고, 모집부터 체험과 평가까지 앱에서 확인할 수 있습니다.</p>
+        <p>이 기능의 목적은 단순한 캠페인 신청 화면이 아니었습니다. “제휴하면 매달 고품질 마케팅을 받을 수 있다”는 경험을 만들어 경쟁 서비스와 구분되는 제휴 가치를 제공하는 것이었습니다.</p>
+        <p class="callout"><strong>제가 맡은 범위</strong><br>백엔드 구현을 책임졌으며, 핵심 도메인 모델과 캠페인 생성 구간은 팀원과 함께 개발했습니다. 저는 진행 상태 계산, 응답 계약, 운영 규칙과 검증 흐름을 중심으로 맡았습니다.</p>
+      </div>
+    </section>
+
+    <section class="section section--dark">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">State model</p>
+          <h2>화면 목록이 아니라 운영 수명주기를 모델링했습니다.</h2>
+        </div>
+        <div class="architecture" aria-label="셀프마케팅 상태 흐름">
+          <div class="flow flow--horizontal">
+            <div class="flow-step"><small>01–03</small><strong>신청 → 검수 → 모집</strong></div>
+            <div class="flow-step"><small>04–06</small><strong>선정 → 체험 → 평가</strong></div>
+            <div class="flow-step"><small>07</small><strong>완료</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Key decisions</p>
+          <h2>정책의 기준을 서버 한 곳에 두었습니다.</h2>
+        </div>
+        <div class="decision-grid">
+          <article class="decision"><span>01</span><h3>시간 + 상태 계산</h3><p>캠페인 상태값만 반환하지 않고 모집·선정·체험·평가 기간을 함께 계산해 현재 단계를 결정했습니다.</p></article>
+          <article class="decision"><span>02</span><h3>서버 주도 화면 계약</h3><p>현재 단계, 안내 문구, 가능한 행동, 비활성 사유를 서버가 반환해 iOS와 Android의 정책 차이를 막았습니다.</p></article>
+          <article class="decision"><span>03</span><h3>매장 단위 월 제한</h3><p>사장님 계정이 아니라 제휴 매장을 기준으로 활성 캠페인을 제한하고, 완료 후에도 월말까지 다음 신청을 막았습니다.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--parchment">
+      <div class="container two-column">
+        <div>
+          <p class="eyebrow">Why server-driven</p>
+          <h2>정책 변경을 앱 배포 주기에서 분리했습니다.</h2>
+          <p class="support">앱이 상태별 문구와 행동을 각각 구현하면 iOS와 Android가 다른 경험을 제공할 수 있습니다. 단순한 안내 문구 수정도 앱 업데이트와 심사가 필요합니다. 그래서 정책과 문구를 서버 응답으로 통일했습니다.</p>
+        </div>
+        <div class="visual">
+          <p class="visual-label">One source of truth</p>
+          <div class="flow">
+            <div class="flow-step"><small>Backend</small><strong>현재 단계 · 문구 · 행동 · 비활성 사유</strong></div>
+            <div class="flow-arrow" aria-hidden="true">↓ 동일한 계약 ↓</div>
+            <div class="flow flow--horizontal">
+              <div class="flow-step"><small>Client</small><strong>iOS</strong></div>
+              <div class="flow-step"><small>Client</small><strong>Android</strong></div>
+              <div class="flow-step"><small>Planned</small><strong>Demo app</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--dark-2">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Verification</p>
+          <h2>출시 전 화면 대신 계약과 상태 전이를 검증했습니다.</h2>
+          <p>공개할 수 없는 출시 전 앱 화면은 사용하지 않습니다. 각 상태를 가진 테스트 매장 데이터로 백엔드 응답을 확인하고, 앱 팀이 같은 계약으로 화면을 그릴 수 있도록 상태 도식만 공개합니다.</p>
+        </div>
+        <div class="evidence-grid">
+          <article class="evidence"><span>Contract</span><h3>응답 필드</h3><p>현재 상태와 문구, 행동 가능 여부가 상태별로 일관되게 반환되는지 확인했습니다.</p></article>
+          <article class="evidence"><span>Transition</span><h3>시간 경계</h3><p>기간 시작·종료와 상태값 조합에 따라 다음 단계로 올바르게 이동하는지 검증했습니다.</p></article>
+          <article class="evidence"><span>Integration</span><h3>진행 상태</h3><p>백엔드 핵심 구현은 완료됐고 앱 연동과 QA가 진행 중입니다. 현장 테스트용 데모 앱은 더미 데이터 기반으로 준비될 예정입니다.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="reading">
+        <p class="eyebrow">Outcome</p>
+        <h2>운영 정책을 여러 앱이 소비할 수 있는 하나의 계약으로 바꿨습니다.</h2>
+        <p>아직 출시 성과를 주장할 단계는 아닙니다. 현재 확인된 결과는 복잡한 캠페인 수명주기와 월별 이용 제한을 백엔드에서 일관되게 표현하고, 앱이 상태 표현에 집중할 수 있는 기반을 만든 것입니다.</p>
+        <p class="callout">제품 요구를 API 목록으로 바로 옮기지 않고, 시간이 흐르며 변하는 상태와 정책의 책임을 먼저 정한 경험이었습니다.</p>
+      </div>
+    </section>
+
+    <section class="section section--parchment"><div class="container"><a class="next-case" href="affiliate.html"><small>Next case</small><h2>고품질 리뷰를 구매 전환과 연결한 어필리에이트 시스템 구축 →</h2></a></div></section>
+  </main>
+  <footer><div class="footer-inner"><span>© 2026 Han Jaehyuk</span><div class="footer-links"><a href="index.html">Home</a><a href="mailto:jh.jaehyuk213@gmail.com">Email</a><a href="resume-public.pdf">Resume</a></div></div></footer>
+</body>
+</html>

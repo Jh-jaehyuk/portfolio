@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="30초 이상 타임아웃되던 API를 300~500ms로 단축해 앱 화면을 복구한 사례">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+  <title>API 성능 개선 — 한재혁</title>
+</head>
+<body>
+  <a class="skip" href="#main">본문으로 건너뛰기</a>
+  <header>
+    <nav class="global-nav" aria-label="글로벌 탐색"><div class="nav-inner"><a class="brand" href="index.html">JH</a><div class="nav-links"><a href="index.html#work">Work</a><a href="index.html#principles">Principles</a><a href="https://github.com/Jh-jaehyuk" target="_blank" rel="noreferrer">GitHub</a></div></div></nav>
+    <nav class="sub-nav" aria-label="사례 탐색"><div class="sub-nav-inner"><a class="sub-title" href="index.html">한재혁</a><div class="sub-links"><a href="index.html#work">모든 사례</a><a class="button button--primary" href="resume-public.pdf">이력서</a></div></div></nav>
+  </header>
+
+  <main id="main">
+    <section class="section hero hero--case">
+      <div class="container">
+        <div>
+          <p class="eyebrow">Case 04 · Performance</p>
+          <h1>30초 타임아웃을 500ms 이하로 줄여 앱 화면을 복구하다.</h1>
+          <p class="lead">동일한 계정과 데이터 조건으로 배포 전후를 측정하고, 운영 환경과 실제 앱 노출까지 확인했습니다.</p>
+        </div>
+        <dl class="stat-stack">
+          <div><dt>Before</dt><dd>30초+ timeout</dd></div>
+          <div><dt>Production</dt><dd>주로 300–500ms</dd></div>
+          <div><dt>User impact</dt><dd>앱 화면 복구</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="section section--parchment">
+      <div class="reading">
+        <p class="eyebrow">Problem</p>
+        <h2>느린 API가 아니라 보이지 않는 화면이 문제였습니다.</h2>
+        <p>‘내가 찜한 목록’ API는 응답에 30초 이상 걸려 쿼리 타임아웃이 발생했습니다. 앱은 데이터를 받지 못해 목록 화면을 제대로 그리지 못했습니다.</p>
+        <p>성능 목표는 추상적인 “빠르게”가 아니었습니다. 사용자가 실제로 화면을 볼 수 있도록 타임아웃을 제거하고, 같은 데이터 조건에서 1초 미만으로 응답하게 만드는 것이었습니다.</p>
+        <p class="callout"><strong>측정 방법</strong><br>Postman에서 동일한 사용자 계정과 데이터 조건으로 수정 전후를 반복 요청했습니다. 수정 후에는 주로 300~500ms였고 모든 반복 측정이 1초 미만이었습니다.</p>
+      </div>
+    </section>
+
+    <section class="section section--dark">
+      <div class="container two-column">
+        <div>
+          <p class="eyebrow">Root cause</p>
+          <h2>직렬화 과정에 반복 DB 조회가 숨어 있었습니다.</h2>
+          <p class="support muted">목록 쿼리 자체만 보면 병목이 명확하지 않았습니다. 응답을 만드는 serializer와 도메인 메서드까지 추적하자, 각 항목이 같은 관계와 계산 데이터를 반복 조회하는 N+1 형태의 비용이 드러났습니다.</p>
+        </div>
+        <div class="visual" aria-label="성능 문제의 호출 경로">
+          <p class="visual-label">Request path</p>
+          <div class="flow">
+            <div class="flow-step"><small>List query</small><strong>찜 목록 조회</strong></div>
+            <div class="flow-arrow" aria-hidden="true">↓ 항목마다 반복 ↓</div>
+            <div class="flow-step"><small>Serializer</small><strong>관계 데이터 재조회</strong></div>
+            <div class="flow-arrow" aria-hidden="true">↓ 누적 비용 ↓</div>
+            <div class="flow-step"><small>Result</small><strong>30초 이상 · timeout</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Fix</p>
+          <h2>필요한 관계를 한 번에 읽고, 이미 읽은 데이터로 계산했습니다.</h2>
+        </div>
+        <div class="decision-grid">
+          <article class="decision"><span>01</span><h3>실제 소비 경로 추적</h3><p>view의 queryset에서 멈추지 않고 serializer와 도메인 메서드가 응답 필드를 만드는 과정까지 확인했습니다.</p></article>
+          <article class="decision"><span>02</span><h3>관계 데이터 선조회</h3><p>필요한 단일·다중 관계를 select와 prefetch로 미리 불러와 항목별 추가 조회를 제거했습니다.</p></article>
+          <article class="decision"><span>03</span><h3>메모리 계산 재사용</h3><p>같은 값을 다시 DB에서 읽지 않고 이미 로드된 관계 데이터로 응답 값을 계산했습니다.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--parchment">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Validation</p>
+          <h2>환경별 확인을 실제 사용자 화면까지 이어갔습니다.</h2>
+        </div>
+        <table class="comparison">
+          <thead><tr><th>단계</th><th>조건</th><th>확인 결과</th></tr></thead>
+          <tbody>
+            <tr><td>수정 전</td><td>동일 계정·데이터, Postman</td><td>30초 이상 소요 후 쿼리 타임아웃</td></tr>
+            <tr><td>로컬</td><td>수정 코드 반복 요청</td><td>모든 측정 1초 미만</td></tr>
+            <tr><td>스테이징</td><td>같은 API와 데이터 조건</td><td>정상 응답과 목록 데이터 확인</td></tr>
+            <tr><td>운영</td><td>배포 직후 반복 요청</td><td>주로 300~500ms</td></tr>
+            <tr><td>앱</td><td>실제 찜 목록 화면</td><td>빈 화면이 정상적으로 노출되는 목록으로 복구</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section section--dark-2">
+      <div class="container two-column">
+        <div>
+          <p class="eyebrow">Secondary example</p>
+          <h2>큰 테이블을 읽는 다른 조회도 같은 방식으로 좁혔습니다.</h2>
+          <p class="support muted">구매자 정보 조회에서는 조건과 인덱스 사용 방식을 조정해 30만 건 이상을 훑던 실행 경로를 30건 미만 조회로 줄였습니다. 메인 사례의 응답 시간과는 별개의 개선입니다.</p>
+        </div>
+        <div class="visual">
+          <p class="visual-label">Rows examined</p>
+          <div class="flow">
+            <div class="flow-step"><small>Before</small><strong>300,000+</strong></div>
+            <div class="flow-arrow" aria-hidden="true">↓ 조건 · 인덱스 정렬 ↓</div>
+            <div class="flow-step"><small>After</small><strong>&lt; 30</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="reading">
+        <p class="eyebrow">Outcome</p>
+        <h2>성능 개선을 사용자 화면 복구로 끝맺었습니다.</h2>
+        <p>30초 이상 걸려 타임아웃되던 API를 반복 측정에서 항상 1초 미만, 운영에서는 주로 300~500ms로 단축했습니다. 수치는 동일 계정과 데이터로 측정한 배포 전후 응답 시간이며, 운영 배포 후 앱 화면이 정상 노출되는 것까지 확인했습니다.</p>
+      </div>
+    </section>
+
+    <section class="section section--parchment"><div class="container"><a class="next-case" href="reward-integrity.html"><small>Next case</small><h2>사용량이 4배 늘어난 리뷰 보상 시스템의 정합성을 지키다 →</h2></a></div></section>
+  </main>
+  <footer><div class="footer-inner"><span>© 2026 Han Jaehyuk</span><div class="footer-links"><a href="index.html">Home</a><a href="mailto:jh.jaehyuk213@gmail.com">Email</a><a href="resume-public.pdf">Resume</a></div></div></footer>
+</body>
+</html>
