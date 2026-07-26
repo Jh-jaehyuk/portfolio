@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="백엔드 엔지니어 한재혁의 6페이지 포트폴리오">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="portfolio-print.css">
+  <title>한재혁 — Backend Engineer Portfolio</title>
+</head>
+<body>
+  <main>
+    <section class="pdf-page cover">
+      <header class="page-kicker">
+        <span>Backend Engineer Portfolio</span>
+        <span>2026</span>
+      </header>
+
+      <div class="cover-copy">
+        <p class="eyebrow">Backend Engineer</p>
+        <h1 class="cover-name">한재혁 <span>Han Jaehyuk</span></h1>
+        <p class="cover-profile">(주)텐핑거스 · 데이트팝/팝로그 · 2025.10~ · 서울</p>
+        <h2 class="cover-claim">복잡한 운영 문제를<br>믿을 수 있는 제품 경험으로 바꿔요.</h2>
+        <p class="cover-lead">Python 백엔드부터 데이터 정합성·성능·MSA 전환까지,<br>실제 사용자 경로를 끝까지 따라가요.</p>
+      </div>
+
+      <div class="impact-grid" role="group" aria-label="핵심 성과">
+        <article>
+          <small>MSA migration</small>
+          <strong>9개 API</strong>
+          <p>클라이언트 변경 없이<br>일부 운영 트래픽 전환</p>
+        </article>
+        <article>
+          <small>API response</small>
+          <strong>&lt; 1초</strong>
+          <p>30초 이상 응답 실패 해소<br>운영 주로 300~500ms</p>
+        </article>
+        <article>
+          <small>Data loaded</small>
+          <strong>1/1,000</strong>
+          <p>찜 목록 응답 계산에 읽던 행<br>같은 응답 기준 전후 비교</p>
+        </article>
+        <article>
+          <small>Data integrity</small>
+          <strong>4건</strong>
+          <p>복제 지연 · 한도 오염 · 재계산 동시성<br>잔액 회수 경계를 순차 해결</p>
+        </article>
+      </div>
+
+      <div class="cover-bottom">
+        <div class="contact-links">
+          <a href="mailto:jh.jaehyuk213@gmail.com">jh.jaehyuk213@gmail.com</a>
+          <a href="https://github.com/Jh-jaehyuk">github.com/Jh-jaehyuk</a>
+          <a href="https://jh-jaehyuk.github.io/portfolio/">jh-jaehyuk.github.io/portfolio</a>
+          <!--PHONE-->
+        </div>
+      </div>
+      <footer class="page-footer"><span>한재혁 · Backend Engineer</span><span>01 / 06</span></footer>
+    </section>
+
+    <section class="pdf-page">
+      <header class="case-header">
+        <div>
+          <p class="eyebrow">Case 01 · Service extraction</p>
+          <h1>클라이언트 계약을 깨지 않고<br>구독 기능을 전용 서비스로 옮겼어요.</h1>
+        </div>
+        <div class="case-stats">
+          <span><small>Production</small><strong>API 9개</strong></span>
+          <span><small>Client changes</small><strong>0</strong></span>
+          <span><small>Status</small><strong>일부 전환 완료</strong></span>
+        </div>
+      </header>
+
+      <div class="two-col intro-grid">
+        <article>
+          <h2>문제</h2>
+          <p>하나의 구독 사용자와 상태를 세 레거시 백엔드가 서로 다른 계약과 예외 처리로 다루고 있었어요. 작은 변경도 영향 범위를 가늠하기 어려웠어요.</p>
+        </article>
+        <article>
+          <h2>제가 맡은 범위</h2>
+          <p>이전 대상을 좁히고 호출 경로와 계약을 비교한 뒤, 구독 전용 서비스의 API를 직접 구현했어요. 인프라 변경은 권한 보유자가 적용했고, 배포 후 라우팅·운영 로그 확인도 제가 맡았어요.</p>
+        </article>
+      </div>
+
+      <div class="section-label"><span>Before</span><strong>하나의 도메인, 세 개의 실행 경로</strong></div>
+      <div class="legacy-grid">
+        <div class="node"><small>Service A</small><strong>Go 사용자 API</strong><p>구독 조회·상태</p></div>
+        <div class="node"><small>Service B</small><strong>Django REST API</strong><p>사용자·해지</p></div>
+        <div class="node"><small>Service C</small><strong>레거시 백엔드</strong><p>결제 전 처리·운영</p></div>
+      </div>
+
+      <div class="section-label"><span>After</span><strong>클라이언트 계약을 유지한 점진적 전환</strong></div>
+      <div class="architecture-row">
+        <div class="node"><small>Clients</small><strong>기존 앱·웹</strong><p>요청·응답 변경 없음</p></div>
+        <span class="arrow">→</span>
+        <div class="node node--primary"><small>Routing</small><strong>ALB 경로 분기</strong><p>API별 대상 분리</p></div>
+        <span class="arrow">→</span>
+        <div class="branch">
+          <div class="node node--primary"><small>Migrated · 9 APIs</small><strong>구독 전용 서비스</strong></div>
+          <div class="node node--dashed"><small>Remaining</small><strong>기존 서비스</strong></div>
+        </div>
+      </div>
+
+      <div class="proof-grid">
+        <article><small>Routing</small><strong>인프라 정의와 대상 확인</strong></article>
+        <article><small>Contract</small><strong>요청·응답·인증 비교</strong></article>
+        <article><small>Traffic</small><strong>운영 요청 200 OK 확인</strong></article>
+      </div>
+
+      <aside class="note">
+        <strong>도구와 판단의 분담</strong>
+        <p>세 저장소에 걸친 호출 경로와 계약 차이는 Codex·Claude Code로 좁혔어요. 전용 서비스 API 구현과 이전 범위·위험 판단, 운영 검증은 직접 맡았어요.</p>
+      </aside>
+      <footer class="page-footer"><span>구독 도메인 MSA 전환</span><span>02 / 06</span></footer>
+    </section>
+
+    <section class="pdf-page">
+      <header class="case-header">
+        <div>
+          <p class="eyebrow">Case 02 · Performance</p>
+          <h1>30초 넘게 타임아웃되던 응답을<br>1초 미만으로 줄였어요.</h1>
+        </div>
+        <div class="case-stats">
+          <span><small>Before</small><strong>30초+ timeout</strong></span>
+          <span><small>Production</small><strong>300~500ms</strong></span>
+          <span><small>Rows loaded</small><strong>약 1/1,000</strong></span>
+        </div>
+      </header>
+
+      <aside class="note note--measurement">
+        <strong>측정 방법과 범위</strong>
+        <p>모든 사용자에게 생기는 문제는 아니었어요. 찜 목록 매장의 결제 이력은 편차가 극단적이라 특정 매장을 찜한 사용자에게서만 재현됐고, 평균적인 목록으로는 보이지 않았어요.</p>
+        <p>응답 시간은 같은 사용자 계정과 데이터로 Postman에서 수정 전후를 반복 요청해 확인했어요. 데이터 접근량은 수정 전후 코드를 같은 합성 데이터에 올려 같은 응답이 나오는 것을 확인한 뒤 쿼리 수와 읽어 들인 행 수를 셌어요. 공개 자료에는 배수만 싣고 실제 건수는 제외했어요.</p>
+      </aside>
+
+      <div class="compare-grid">
+        <article class="compare-panel">
+          <span>Before · 미리 읽고, 또 조회</span>
+          <div class="node"><small>Prefetch</small><strong>결제 원본 통째로 적재</strong><p>결제 많은 매장일수록 급증</p></div>
+          <span class="down">↓</span>
+          <div class="node"><small>Per item</small><strong>Serializer·도메인 메서드</strong><p>선조회를 못 쓰고 관계마다 재조회</p></div>
+          <span class="down">↓</span>
+          <div class="node"><small>Result</small><strong>30초 이상 · 요청 실패</strong></div>
+        </article>
+        <article class="compare-panel compare-panel--after">
+          <span>After · 걷어내고 DB에 맡김</span>
+          <div class="node node--primary"><small>Query plan</small><strong>원본 적재 제거·DB 집계</strong><p>판매량을 Subquery로</p></div>
+          <span class="down">↓</span>
+          <div class="node"><small>Serializer</small><strong>선조회한 잔액을 실제로 재사용</strong><p>재조회 대신 읽은 값으로 계산</p></div>
+          <span class="down">↓</span>
+          <div class="node"><small>Result</small><strong>모든 측정 1초 미만</strong><p>읽은 행 약 1/1,000·쿼리 약 1/3</p></div>
+        </article>
+      </div>
+
+      <div class="decision-row">
+        <article><b>01</b><strong>소비 경로 추적</strong><p>View에서 멈추지 않고 serializer와 도메인 메서드까지 확인했어요.</p></article>
+        <article><b>02</b><strong>원본 대신 집계값</strong><p>결제 원본을 읽던 선조회를 걷어내고 판매량은 Subquery로 DB에서 집계했어요.</p></article>
+        <article><b>03</b><strong>선조회가 닿게</strong><p>도메인 메서드가 재조회하는 대신 이미 읽어 둔 값을 쓰도록 바꿨어요.</p></article>
+      </div>
+
+      <aside class="note note--measurement" style="margin:5mm 0 0">
+        <strong>같은 방식의 2차 개선</strong>
+        <p>구매자 정보 조회에서도 조건과 인덱스 사용 방식을 바꿔, 실행 계획이 훑던 행을 1만분의 1 수준으로 줄였어요. 메인 사례의 응답 시간과는 별개의 개선이에요.</p>
+      </aside>
+
+      <table class="compact-table">
+        <thead><tr><th>검증 단계</th><th>조건</th><th>확인 결과</th></tr></thead>
+        <tbody>
+          <tr><td>수정 전</td><td>동일 계정·데이터</td><td>30초 이상 지연 후 요청 실패</td></tr>
+          <tr><td>로컬·스테이징</td><td>수정 코드 반복 요청</td><td>1초 미만·목록 데이터 확인</td></tr>
+          <tr><td>운영·앱</td><td>배포 직후 반복 요청</td><td>주로 300~500ms·목록 화면 복구</td></tr>
+          <tr><td>데이터 접근량</td><td>수정 전후 코드·동일 응답</td><td>읽은 행 약 1/1,000·쿼리 약 1/3</td></tr>
+        </tbody>
+      </table>
+      <footer class="page-footer"><span>찜 목록 API 성능 개선</span><span>03 / 06</span></footer>
+    </section>
+
+    <section class="pdf-page">
+      <header class="case-header">
+        <div>
+          <p class="eyebrow">Case 03 · Data integrity</p>
+          <h1>사용량이 약 4배 늘어난 뒤 드러난<br>리뷰 보상 정합성 문제를 해결했어요.</h1>
+        </div>
+        <div class="case-stats">
+          <span><small>Project context</small><strong>사용량 약 4배</strong></span>
+          <span><small>Comparison</small><strong>동일 조건 7일</strong></span>
+          <span><small>My scope</small><strong>정합성 경로</strong></span>
+        </div>
+      </header>
+
+      <aside class="invariant">
+        <small>Core invariant</small>
+        <strong>같은 리뷰 상태라면 여러 번 다시 계산해도<br>최종 잔액과 이력은 한 번 계산한 결과와 같아야 해요.</strong>
+      </aside>
+
+      <div class="integrity-grid">
+        <article><b>01</b><div><strong>Writer 기준 조회</strong><p>복제 지연이 보상 판단을 바꾸지 않도록 최신 상태를 writer에서 읽었어요.</p></div></article>
+        <article><b>02</b><div><strong>현재 리뷰 제외</strong><p>수정 중인 리뷰가 자신의 보상 한도 계산에 다시 포함되지 않게 했어요.</p></div></article>
+        <article><b>03</b><div><strong>행 잠금과 이력 교체</strong><p>동시 재계산이 중복 결과를 만들지 않도록 transaction 경계를 정리했어요.</p></div></article>
+        <article><b>04</b><div><strong>음수 offset 원장</strong><p>취소 상태만 남기지 않고 실제 회수액을 거래로 기록했어요.</p></div></article>
+      </div>
+
+      <div class="section-label"><span>Cross-store boundary</span><strong>원장 성공을 기준으로 projection을 동기화</strong></div>
+      <div class="architecture-row architecture-row--ledger">
+        <div class="node"><small>Source</small><strong>리뷰 상태</strong><p>현재 입력</p></div>
+        <span class="arrow">→</span>
+        <div class="node node--primary"><small>Core transaction</small><strong>행 잠금·순액 계산</strong><p>원장 반영 기준 확정</p></div>
+        <span class="arrow">→</span>
+        <div class="node"><small>Ledger</small><strong>지급·회수 원장</strong><p>양수·음수 offset</p></div>
+        <span class="arrow">→</span>
+        <div class="node node--dashed"><small>Projection</small><strong>보상 이력</strong><p>commit 후 동기화</p></div>
+      </div>
+
+      <table class="compact-table">
+        <thead><tr><th>구분</th><th>확인된 결과</th><th>설명</th></tr></thead>
+        <tbody>
+          <tr><td>프로젝트 성과</td><td>사용량 약 4배</td><td>동일 조건의 7일 비교, 프로젝트 전체 결과</td></tr>
+          <tr><td>개인 기여</td><td>수정·재계산·회수 정합성</td><td>Writer read, 현재 리뷰 제외, 행 잠금, 음수 원장</td></tr>
+          <tr><td>운영 안전망</td><td>재실행 가능한 보정</td><td>핵심 원장 commit 이후 동기화와 일일 reconciliation</td></tr>
+        </tbody>
+      </table>
+      <footer class="page-footer"><span>리뷰 보상 정합성</span><span>04 / 06</span></footer>
+    </section>
+
+    <section class="pdf-page">
+      <header class="case-header">
+        <div>
+          <p class="eyebrow">Case 04 · Affiliate</p>
+          <h1>좋은 리뷰가 만든 구매를<br>추적하고 보상할 수 있게 했어요.</h1>
+        </div>
+        <div class="case-stats">
+          <span><small>Attribution</small><strong>7일</strong></span>
+          <span><small>Rule</small><strong>마지막 링크</strong></span>
+          <span><small>Scope</small><strong>백엔드 전 구간</strong></span>
+        </div>
+      </header>
+
+      <div class="two-col intro-grid">
+        <article>
+          <h2>제품 맥락</h2>
+          <p>팝로그는 사장님께 고품질 리뷰를 제공하고, 작성자에게 해당 콘텐츠가 만든 구매 수익의 일부를 나누는 구조예요. 이전에는 콘텐츠를 통해 구매가 일어났는지 추적할 방법이 없었어요.</p>
+        </article>
+        <article>
+          <h2>제가 맡은 범위</h2>
+          <p>링크 생성·검증부터 웹과 앱의 코드 전달, 결제 출처 저장, 전환 상태 반영, 작성자 보상과 월 정산까지 백엔드 전 구간을 구현했어요.</p>
+        </article>
+      </div>
+
+      <div class="section-label"><span>Pipeline</span><strong>콘텐츠에서 월 정산까지 하나의 흐름</strong></div>
+      <div class="pipeline">
+        <div class="node"><small>Discover</small><strong>팝로그</strong><p>리뷰 탐색</p></div>
+        <span class="arrow">→</span>
+        <div class="node"><small>Link</small><strong>어필리에이트 링크</strong><p>코드 발급·검증</p></div>
+        <span class="arrow">→</span>
+        <div class="node node--primary"><small>Purchase</small><strong>결제 출처 저장</strong><p>정책 snapshot</p></div>
+        <span class="arrow">→</span>
+        <div class="node"><small>Reward</small><strong>작성자 보상</strong><p>상태 반영</p></div>
+        <span class="arrow">→</span>
+        <div class="node"><small>Settlement</small><strong>월 정산</strong><p>운영 연결</p></div>
+      </div>
+
+      <div class="section-label"><span>Key rules</span><strong>정책이 바뀌어도 과거 구매의 의미를 보존</strong></div>
+      <div class="rule-grid">
+        <article><small>01 · Window</small><strong>7일 이내 링크만 인정</strong><p>구매 시점에 유효성을 판단해 출처를 확정했어요.</p></article>
+        <article><small>02 · Priority</small><strong>마지막 유효 링크</strong><p>여러 콘텐츠를 거쳤을 때 가장 최근 기여를 사용했어요.</p></article>
+        <article><small>03 · Snapshot</small><strong>구매 당시 정책 저장</strong><p>이후 정책이 바뀌어도 기존 정산 결과가 달라지지 않게 했어요.</p></article>
+      </div>
+
+      <aside class="note">
+        <strong>결과</strong>
+        <p>보이지 않던 콘텐츠의 기여를 결제 데이터에 남겨 작성자 보상과 월 정산으로 연결했어요. 공개 자료에는 민감한 원수치를 제외하고, 추적·정산 구조와 확인 가능한 결과만 담았어요.</p>
+      </aside>
+      <footer class="page-footer"><span>팝로그 어필리에이트</span><span>05 / 06</span></footer>
+    </section>
+
+    <section class="pdf-page closing">
+      <header class="case-header">
+        <div>
+          <p class="eyebrow">Case 05 · Product system</p>
+          <h1>매달 한 번 무료로 받는 마케팅을<br>사장님이 직접 운영하게 만들었어요.</h1>
+        </div>
+        <div class="case-stats">
+          <span><small>Benefit</small><strong>월 1회 무료</strong></span>
+          <span><small>My focus</small><strong>상태·응답 계약</strong></span>
+          <span><small>Status</small><strong>앱 연동·QA</strong></span>
+        </div>
+      </header>
+
+      <div class="two-col intro-grid">
+        <article>
+          <h2>제품 목표</h2>
+          <p>사장님 앱 리뉴얼에서 제휴 매장이 매달 한 번 무료 마케팅을 받을 수 있다는 점을 경쟁 포인트로 만들었어요.</p>
+        </article>
+        <article>
+          <h2>제가 맡은 범위</h2>
+          <p>백엔드 구현과 진행 상태 계산, 응답 계약, 운영 규칙과 검증 흐름을 맡았어요. 핵심 도메인 모델과 캠페인 생성은 팀원과 함께 개발했어요.</p>
+        </article>
+      </div>
+
+      <div class="section-label"><span>State model</span><strong>사용자 관점 4구간 · 내부 7상태</strong></div>
+      <div class="state-flow">
+        <div class="node"><small>Available</small><strong>신청 가능</strong></div>
+        <span class="arrow">→</span>
+        <div class="node node--primary"><small>Requested</small><strong>신청·진행</strong></div>
+        <span class="arrow">→</span>
+        <div class="node"><small>Completed</small><strong>완료</strong></div>
+        <span class="arrow">→</span>
+        <div class="node node--dashed"><small>Next cycle</small><strong>다음 이용 가능일</strong></div>
+      </div>
+
+      <div class="rule-grid rule-grid--compact">
+        <article><small>Server-owned policy</small><strong>시간과 상태의 기준을 서버에 집중</strong></article>
+        <article><small>Stable contract</small><strong>앱은 문구·행동을 응답대로 표현</strong></article>
+        <article><small>Pre-release proof</small><strong>상태별 테스트 데이터와 계약 검증</strong></article>
+      </div>
+
+      <div class="closing-divider"></div>
+      <div class="closing-grid">
+        <div>
+          <p class="eyebrow">Working principles</p>
+          <h2>제품의 약속이 운영에서도 지켜지게 만들어요.</h2>
+          <ul class="principle-list">
+            <li><strong>실제 경로를 끝까지 따라가요.</strong><span>화면부터 API·비동기 작업·데이터 저장까지 확인해요.</span></li>
+            <li><strong>운영에서 한 번 더 확인해요.</strong><span>배포가 아니라 실제 동작을 완료 기준으로 삼아요.</span></li>
+            <li><strong>AI의 속도에 판단을 더해요.</strong><span>분석과 초안은 빠르게, 설계와 결과는 직접 책임져요.</span></li>
+          </ul>
+        </div>
+        <div>
+          <p class="eyebrow">Core stack</p>
+          <div class="tag-list">
+            <span>Python</span><span>Django / DRF</span><span>Litestar</span><span>FastAPI</span>
+            <span>Celery</span><span>MySQL</span><span>Redis</span><span>Docker</span>
+            <span>AWS ECS · RDS · ALB</span><span>GitHub Actions</span>
+          </div>
+          <div class="contact-card">
+            <strong>함께 풀고 싶은 문제가 있다면 편하게 연락 주세요.</strong>
+            <a href="mailto:jh.jaehyuk213@gmail.com">jh.jaehyuk213@gmail.com</a>
+            <a href="https://github.com/Jh-jaehyuk">github.com/Jh-jaehyuk</a>
+            <a href="https://jh-jaehyuk.github.io/portfolio/">jh-jaehyuk.github.io/portfolio</a>
+            <!--PHONE-->
+          </div>
+        </div>
+      </div>
+      <footer class="page-footer"><span>한재혁 · Backend Engineer</span><span>06 / 06</span></footer>
+    </section>
+  </main>
+</body>
+</html>

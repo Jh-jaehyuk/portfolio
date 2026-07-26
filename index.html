@@ -2,6 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="운영의 복잡함을 신뢰할 수 있는 제품 경험으로 바꾸는 백엔드 엔지니어 한재혁의 포트폴리오">
   <link rel="icon" href="data:,">
@@ -10,23 +11,14 @@
 </head>
 <body>
   <a class="skip" href="#main">본문으로 건너뛰기</a>
-  <header>
-    <nav class="global-nav" aria-label="글로벌 탐색">
+  <header class="site-header">
+    <nav class="site-nav" aria-label="주요 탐색">
       <div class="nav-inner">
-        <a class="brand" href="index.html">JH</a>
-        <div class="nav-links">
-          <a href="#work">Work</a>
-          <a href="#principles">Principles</a>
-          <a href="https://github.com/Jh-jaehyuk" target="_blank" rel="noreferrer">GitHub</a>
-        </div>
-      </div>
-    </nav>
-    <nav class="sub-nav" aria-label="포트폴리오 탐색">
-      <div class="sub-nav-inner">
-        <a class="sub-title" href="#top">한재혁</a>
-        <div class="sub-links">
-          <a href="#work">Case Studies</a>
-          <a href="#about">About</a>
+        <a class="site-brand" href="#top">한재혁</a>
+        <div class="site-links">
+          <a href="#work">사례</a>
+          <a href="#about">소개</a>
+          <a class="site-link--github" href="https://github.com/Jh-jaehyuk" target="_blank" rel="noreferrer">GitHub</a>
           <a class="button button--primary" href="resume-public.pdf">이력서</a>
         </div>
       </div>
@@ -36,13 +28,12 @@
   <main id="main">
     <section class="section hero" id="top">
       <div class="container">
-        <p class="eyebrow">Backend Engineer · DatePOP</p>
-        <h1>운영의 복잡함을 신뢰할 수 있는 제품 경험으로 바꿉니다.</h1>
-        <p class="lead">Python 기반 백엔드부터 데이터 정합성·성능·MSA 전환까지, 실제 사용자 경로를 끝까지 추적합니다.</p>
-        <p class="support" style="margin-inline:auto">AI 에이전트를 개발 파트너로 활용해 분석과 구현 속도를 높이고, 설계부터 운영 검증까지 책임집니다.</p>
+        <p class="eyebrow">Backend Engineer</p>
+        <h1>복잡한 운영 문제를 믿을 수 있는 제품 경험으로 바꿔요.</h1>
+        <p class="lead">Python 백엔드부터 데이터 정합성·성능·MSA 전환까지, 실제 사용자 경로를 끝까지 따라가요.</p>
         <div class="button-row">
           <a class="button button--primary" href="#work">사례 보기</a>
-          <a class="button" href="resume-public.pdf">이력서 PDF</a>
+          <a class="button" href="han-jaehyuk-portfolio.pdf">포트폴리오 PDF</a>
         </div>
       </div>
     </section>
@@ -50,14 +41,14 @@
     <section class="section section--parchment" aria-labelledby="impact-title">
       <div class="container">
         <div class="section-head">
-          <p class="eyebrow">Selected impact</p>
-          <h2 id="impact-title">결과는 측정 조건과 운영 검증으로 설명합니다.</h2>
+          <p class="eyebrow">Selected evidence</p>
+          <h2 id="impact-title">숫자는 측정 조건과 함께 설명하고, 운영에서 다시 확인했어요.</h2>
         </div>
         <div class="metric-grid">
-          <article class="metric"><small>MSA migration</small><strong>9 APIs</strong><p>클라이언트 변경 없이 운영 트래픽 전환</p></article>
-          <article class="metric"><small>API response</small><strong>&lt; 1s</strong><p>30초 이상 타임아웃되던 화면 복구</p></article>
-          <article class="metric"><small>Production response</small><strong>300–500ms</strong><p>동일 계정·데이터 조건 반복 측정</p></article>
-          <article class="metric"><small>Reward usage</small><strong>≈ 4×</strong><p>증가한 사용량에서 원장 정합성 유지</p></article>
+          <article class="metric"><small>MSA migration</small><strong><span class="metric-value">9</span><span class="metric-unit">개 API</span></strong><p><span>클라이언트 변경 없이</span><span>일부 운영 트래픽 전환</span></p></article>
+          <article class="metric"><small>API response</small><strong><span class="metric-value">&lt; 1</span><span class="metric-unit">초</span></strong><p><span>30초 이상 응답 실패 해소</span><span>운영 주로 300~500ms</span></p></article>
+          <article class="metric"><small>Data loaded</small><strong><span class="metric-value">1/1,000</span></strong><p><span>찜 목록 응답 계산에 읽던 행</span><span>같은 응답 기준 전후 비교</span></p></article>
+          <article class="metric"><small>Data integrity</small><strong><span class="metric-value">4</span><span class="metric-unit">건</span></strong><p><span>복제 지연 · 한도 오염 · 재계산 동시성</span><span>잔액 회수 경계를 순차 해결</span></p></article>
         </div>
       </div>
     </section>
@@ -66,22 +57,25 @@
       <section class="section work section--dark">
         <div class="container work-grid">
           <div class="work-copy">
-            <p class="eyebrow">Case 01 · AI-native migration</p>
-            <h2>3개 레거시 백엔드의 구독 도메인을 단계적으로 MSA로 통합하다.</h2>
-            <p>실제 운영 트래픽을 받는 전용 서비스로 9개 API operation을 이전했습니다. AI 에이전트로 호출 경로와 계약 차이를 빠르게 좁히고, 범위·위험 판단과 운영 검증은 직접 책임졌습니다.</p>
+            <p class="eyebrow">Case 01 · Service extraction</p>
+            <h2>세 레거시 백엔드의 구독 기능을 하나씩 전용 서비스로 떼어냈어요.</h2>
+            <p>실제 운영 트래픽을 받는 전용 서비스로 API 9개를 옮겼어요. 세 저장소에 흩어진 호출 경로와 계약 차이를 좁힌 뒤 전용 서비스의 API를 직접 구현하고, 운영에서 전환 결과를 검증했어요.</p>
             <ul class="work-meta">
-              <li><b>역할</b> 마이그레이션 실행 책임자</li>
+              <li><b>역할</b> 이전 범위 선정 · 계약 비교 · 구독 서비스 API 구현 · 운영 검증</li>
               <li><b>결과</b> 9개 API 전환 · 클라이언트 변경 0</li>
               <li><b>상태</b> 일부 운영 트래픽 전환 완료</li>
             </ul>
-            <div class="button-row"><a class="button button--primary" href="msa-migration.html">자세히 보기</a></div>
+            <div class="button-row"><a class="button button--primary" href="msa-migration.html">MSA 전환 사례</a></div>
           </div>
-          <div class="visual" aria-label="구독 도메인 이전 구조">
+          <div class="visual" role="group" aria-label="구독 도메인 이전 구조">
             <p class="visual-label">Production routing</p>
             <div class="flow">
-              <div class="flow-step"><small>Priority</small><strong>구독 전용 서비스</strong></div>
-              <div class="flow-arrow" aria-hidden="true">↓</div>
-              <div class="flow-step"><small>Fallback</small><strong>기존 서비스 경로 유지</strong></div>
+              <div class="flow-step"><small>Routing boundary</small><strong>ALB 경로 분기</strong></div>
+              <div class="flow-arrow"><span aria-hidden="true">↓</span> API 경로별 대상 분리 <span aria-hidden="true">↓</span></div>
+              <div class="flow flow--split">
+                <div class="flow-step"><small>Migrated routes</small><strong>구독 전용 서비스</strong></div>
+                <div class="flow-step"><small>Remaining routes</small><strong>기존 서비스 경로</strong></div>
+              </div>
               <div class="flow-arrow" aria-hidden="true">↓</div>
               <div class="flow-step"><small>Evidence</small><strong>라우팅 · 헬스 · 운영 로그</strong></div>
             </div>
@@ -92,22 +86,22 @@
       <section class="section work">
         <div class="container work-grid">
           <div class="work-copy">
-            <p class="eyebrow">Case 02 · Product system</p>
-            <h2>제휴 매장당 월 1회 무료 마케팅을, 사장님이 앱에서 직접 운영하게 만들다.</h2>
-            <p>사장님 앱 리뉴얼의 핵심 경쟁 포인트를 백엔드 상태 머신으로 구현했습니다. 현재 단계·문구·가능한 행동을 서버가 결정해 iOS와 Android가 같은 정책을 보도록 만들었습니다.</p>
+            <p class="eyebrow">Case 02 · Performance</p>
+            <h2>30초 넘게 타임아웃되던 응답을 1초 미만으로 줄였어요.</h2>
+            <p>결제 이력을 통째로 미리 읽으면서도 정작 응답을 만들 때는 다시 조회하고 있었어요. 그 선조회를 걷어내고 집계를 DB로 옮겼어요. 같은 계정과 데이터로 배포 전후를 반복 측정했고, 데이터를 받지 못하던 앱 화면이 정상 노출되는 것까지 확인했어요.</p>
             <ul class="work-meta">
-              <li><b>역할</b> 백엔드 구현 책임</li>
-              <li><b>핵심</b> 시간·상태 기반 운영 플로우</li>
-              <li><b>상태</b> 백엔드 완료 · 앱 연동 및 QA 진행</li>
+              <li><b>원인</b> 쓰이지 않는 결제 원본 선조회 + 도메인 메서드의 재조회</li>
+              <li><b>결과</b> 모든 측정 1초 미만 · 읽어 들인 행 약 1/1,000</li>
+              <li><b>영향</b> 30초 이상 응답 실패 해소 · 앱 화면 복구</li>
             </ul>
-            <div class="button-row"><a class="button button--primary" href="self-marketing.html">자세히 보기</a></div>
+            <div class="button-row"><a class="button button--primary" href="performance.html">성능 개선 사례</a></div>
           </div>
-          <div class="visual" aria-label="셀프마케팅 진행 상태">
-            <p class="visual-label">Server-driven state</p>
+          <div class="visual" role="group" aria-label="API 성능 개선 결과">
+            <p class="visual-label">Measured response</p>
             <div class="flow">
-              <div class="flow-step"><small>01–03</small><strong>신청 → 검수 → 모집</strong></div>
-              <div class="flow-step"><small>04–06</small><strong>선정 → 체험 → 평가</strong></div>
-              <div class="flow-step"><small>07</small><strong>완료 · 다음 신청 가능 시점 계산</strong></div>
+              <div class="flow-step"><small>Before</small><strong>30초+ · 요청 타임아웃</strong></div>
+              <div class="flow-arrow"><span aria-hidden="true">↓</span> 원본 적재 제거 · 집계는 DB에서 <span aria-hidden="true">↓</span></div>
+              <div class="flow-step"><small>After</small><strong>&lt; 1초 · 운영 주로 300~500ms</strong></div>
             </div>
           </div>
         </div>
@@ -116,22 +110,24 @@
       <section class="section work section--dark-2">
         <div class="container work-grid">
           <div class="work-copy">
-            <p class="eyebrow">Case 03 · Affiliate</p>
-            <h2>고품질 리뷰를 구매 전환과 연결한 어필리에이트 시스템을 구축하다.</h2>
-            <p>팝로그 작성자의 콘텐츠를 거쳐 발생한 구매를 추적하고 보상하는 흐름을 처음부터 끝까지 연결했습니다. 링크 발급부터 결제 출처 저장, 상태 변경, 월 정산까지 하나의 운영 시스템으로 만들었습니다.</p>
+            <p class="eyebrow">Case 03 · Data integrity</p>
+            <h2>리뷰를 고치고 보상을 회수해도 원장과 이력이 같은 값을 가리키게 했어요.</h2>
+            <p>복제 지연, 수정 중 리뷰의 한도 오염, 재계산 동시성, 교차 저장소 원장 반영까지 정합성 경계를 하나씩 따라가 해결했어요. 상태 플래그가 아니라 원장의 순변화를 진실로 삼았어요.</p>
             <ul class="work-meta">
-              <li><b>역할</b> 백엔드 전 구간 구현</li>
-              <li><b>규칙</b> 7일 이내 마지막 유효 링크</li>
-              <li><b>성과</b> 콘텐츠 수익화 KPI 목표 초과 달성</li>
+              <li><b>불변식</b> 같은 리뷰 상태면 몇 번 재계산해도 최종 잔액과 이력이 같다</li>
+              <li><b>해결</b> 정합성 경계 4건 · 음수 offset 원장 · 리뷰 단위 잠금</li>
+              <li><b>경계</b> 다른 저장소를 하나의 transaction처럼 가장하지 않음</li>
             </ul>
-            <div class="button-row"><a class="button button--primary" href="affiliate.html">자세히 보기</a></div>
+            <div class="button-row"><a class="button button--primary" href="reward-integrity.html">정합성 사례</a></div>
           </div>
-          <div class="visual" aria-label="팝로그 어필리에이트 흐름">
-            <p class="visual-label">Content to settlement</p>
+          <div class="visual" role="group" aria-label="보상 원장과 리뷰 이력의 commit 경계">
+            <p class="visual-label">Commit boundary</p>
             <div class="flow">
-              <div class="flow-step"><small>Discover</small><strong>팝로그 → 링크 → 구매</strong></div>
-              <div class="flow-step"><small>Attribute</small><strong>결제 출처 저장 → 전환 반영</strong></div>
-              <div class="flow-step"><small>Reward</small><strong>작성자 보상 → 월 정산</strong></div>
+              <div class="flow-step"><small>Review event</small><strong>수정 · 삭제 · 미디어 상태 변경</strong></div>
+              <div class="flow-arrow"><span aria-hidden="true">↓</span> 리뷰 단위 잠금 후 재계산 <span aria-hidden="true">↓</span></div>
+              <div class="flow-step"><small>Source of value</small><strong>핵심 보상 원장 먼저 commit</strong></div>
+              <div class="flow-arrow"><span aria-hidden="true">↓</span> 성공 후 동기화 · 일일 reconciliation <span aria-hidden="true">↓</span></div>
+              <div class="flow-step"><small>Projection</small><strong>리뷰 보상 이력</strong></div>
             </div>
           </div>
         </div>
@@ -142,19 +138,19 @@
       <div class="container">
         <div class="section-head">
           <p class="eyebrow">Supporting cases</p>
-          <h2 id="supporting-title">성능과 정합성은 운영에서 증명했습니다.</h2>
+          <h2 id="supporting-title">정산 추적과 제품 운영 구조도 함께 다뤘어요.</h2>
         </div>
         <div class="supporting-grid">
-          <a class="case-card" href="performance.html">
-            <small>Case 04 · Performance</small>
-            <h3>30초 타임아웃을 500ms 이하로 줄여 앱 화면을 복구하다.</h3>
-            <p>동일 계정과 데이터로 배포 전후를 측정하고, 로컬·스테이징·운영과 실제 앱 노출까지 확인했습니다.</p>
+          <a class="case-card" href="affiliate.html">
+            <small>Case 04 · Affiliate</small>
+            <h3>좋은 리뷰가 만든 구매를 추적하고 보상할 수 있게 했어요.</h3>
+            <p>링크 발급부터 결제 출처 저장, 상태 변경과 월 정산까지 백엔드 전 구간을 하나의 운영 시스템으로 연결했어요.</p>
             <span class="link">사례 읽기 →</span>
           </a>
-          <a class="case-card" href="reward-integrity.html">
-            <small>Case 05 · Data integrity</small>
-            <h3>사용량이 4배 늘어난 리뷰 보상 시스템의 정합성을 지키다.</h3>
-            <p>복제 지연, 재계산 동시성, 교차 저장소 원장 반영 문제를 단계적으로 해결했습니다.</p>
+          <a class="case-card" href="self-marketing.html">
+            <small>Case 05 · Product system</small>
+            <h3>매달 한 번 무료로 받는 마케팅을 사장님이 직접 운영하게 만들었어요.</h3>
+            <p>시간과 상태에 따라 문구와 가능한 행동을 서버가 결정하는 운영 계약을 만들었어요. 현재 앱 연동과 QA를 진행하고 있어요.</p>
             <span class="link">사례 읽기 →</span>
           </a>
         </div>
@@ -165,12 +161,12 @@
       <div class="container">
         <div class="section-head">
           <p class="eyebrow">Working principles</p>
-          <h2>좋은 백엔드는 배포 이후의 경험까지 책임집니다.</h2>
+          <h2>좋은 백엔드는 배포 뒤의 경험까지 살펴야 한다고 생각해요.</h2>
         </div>
         <div class="principles-grid">
-          <article><h3>실제 경로를 끝까지 봅니다.</h3><p>사용자 화면부터 API, 비동기 작업, 데이터 저장까지 소비자와 작성자 경로를 함께 추적합니다.</p></article>
-          <article><h3>운영에서 확인합니다.</h3><p>배포 완료가 아니라 운영 환경과 실제 앱에서 정상 동작하는 것까지 검증합니다.</p></article>
-          <article><h3>AI의 속도에 판단을 더합니다.</h3><p>분석과 구현 초안은 가속하되, 설계 결정과 결과의 책임은 직접 집니다.</p></article>
+          <article><h3>실제 경로를 끝까지 따라가요.</h3><p>사용자 화면부터 API, 비동기 작업, 데이터 저장까지 소비자와 작성자 경로를 함께 살펴봐요.</p></article>
+          <article><h3>운영에서 한 번 더 확인해요.</h3><p>배포로 끝내지 않고, 운영 환경과 실제 앱에서 제대로 동작하는지 확인해요.</p></article>
+          <article><h3>AI의 속도에 판단을 더해요.</h3><p>분석과 구현 초안은 빠르게 만들되, 설계 결정과 결과는 직접 책임져요.</p></article>
         </div>
       </div>
     </section>
@@ -179,15 +175,15 @@
       <div class="container two-column">
         <div>
           <p class="eyebrow">About</p>
-          <h2>Python 백엔드 엔지니어 한재혁입니다.</h2>
-          <p class="support">데이트팝에서 결제·정산·리뷰·어필리에이트·마케팅과 MSA 전환을 다루고 있습니다. 팀의 성과와 제가 맡은 범위를 구분하고, 공개할 수 있는 증거만으로 문제 해결 과정을 설명합니다.</p>
+          <h2>제품의 약속이 운영에서도 지켜지게 만들어요.</h2>
+          <p class="support">화면에서 시작된 문제를 API와 데이터까지 따라가 해결해요. 빠르게 구현하되, 운영에서 확인한 결과까지 책임져요.</p>
         </div>
         <div>
           <h3>Core stack</h3>
-          <div class="tags" style="margin-top:20px">
-            <span class="tag">Python</span><span class="tag">Django/DRF</span><span class="tag">Litestar</span><span class="tag">Celery</span>
+          <div class="tags">
+            <span class="tag">Python</span><span class="tag">Django/DRF</span><span class="tag">Litestar</span><span class="tag">FastAPI</span><span class="tag">Celery</span>
             <span class="tag">MySQL</span><span class="tag">Redis</span><span class="tag">Docker</span><span class="tag">AWS ECS·RDS·ALB</span>
-            <span class="tag">GitHub Actions</span><span class="tag">Codex</span><span class="tag">Claude Code</span><span class="tag">Cursor</span><span class="tag">MCP</span>
+            <span class="tag">GitHub Actions</span>
           </div>
         </div>
       </div>
@@ -196,8 +192,8 @@
     <section class="section section--parchment contact">
       <div class="container">
         <p class="eyebrow">Contact</p>
-        <h2>복잡한 운영 문제를 신뢰할 수 있는 제품 변화로 만들겠습니다.</h2>
-        <p>백엔드 개발과 운영 안정성에 관한 이야기를 기다립니다.</p>
+        <h2>다음 문제는 함께 풀어보고 싶어요.</h2>
+        <p>MSA 전환, 성능, 데이터 정합성처럼 운영에서 드러나는 어려운 문제를 함께 풀어갈 백엔드 엔지니어를 찾고 있다면 편하게 연락 주세요.</p>
         <div class="button-row">
           <a class="button button--primary" href="mailto:jh.jaehyuk213@gmail.com">이메일 보내기</a>
           <a class="button" href="https://github.com/Jh-jaehyuk" target="_blank" rel="noreferrer">GitHub</a>
@@ -211,6 +207,7 @@
       <span>© 2026 Han Jaehyuk</span>
       <div class="footer-links">
         <a href="mailto:jh.jaehyuk213@gmail.com">Email</a>
+        <a href="han-jaehyuk-portfolio.pdf">Portfolio PDF</a>
         <a href="resume-public.pdf">Resume</a>
         <a href="https://github.com/Jh-jaehyuk" target="_blank" rel="noreferrer">GitHub</a>
       </div>

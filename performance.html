@@ -2,31 +2,31 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="30초 이상 타임아웃되던 API를 300~500ms로 단축해 앱 화면을 복구한 사례">
+  <meta name="description" content="30초 이상 응답하지 못하던 API를 운영 300~500ms 수준으로 단축해 앱 화면을 복구한 사례">
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="styles.css">
   <title>API 성능 개선 — 한재혁</title>
 </head>
 <body>
   <a class="skip" href="#main">본문으로 건너뛰기</a>
-  <header>
-    <nav class="global-nav" aria-label="글로벌 탐색"><div class="nav-inner"><a class="brand" href="index.html">JH</a><div class="nav-links"><a href="index.html#work">Work</a><a href="index.html#principles">Principles</a><a href="https://github.com/Jh-jaehyuk" target="_blank" rel="noreferrer">GitHub</a></div></div></nav>
-    <nav class="sub-nav" aria-label="사례 탐색"><div class="sub-nav-inner"><a class="sub-title" href="index.html">한재혁</a><div class="sub-links"><a href="index.html#work">모든 사례</a><a class="button button--primary" href="resume-public.pdf">이력서</a></div></div></nav>
+  <header class="site-header">
+    <nav class="site-nav" aria-label="주요 탐색"><div class="nav-inner"><a class="site-brand" href="index.html">한재혁</a><div class="site-links"><a href="index.html#work">사례</a><a href="index.html#about">소개</a><a class="site-link--github" href="https://github.com/Jh-jaehyuk" target="_blank" rel="noreferrer">GitHub</a><a class="button button--primary" href="resume-public.pdf">이력서</a></div></div></nav>
   </header>
 
   <main id="main">
     <section class="section hero hero--case">
       <div class="container">
         <div>
-          <p class="eyebrow">Case 04 · Performance</p>
-          <h1>30초 타임아웃을 500ms 이하로 줄여 앱 화면을 복구하다.</h1>
-          <p class="lead">동일한 계정과 데이터 조건으로 배포 전후를 측정하고, 운영 환경과 실제 앱 노출까지 확인했습니다.</p>
+          <p class="eyebrow">Case 02 · Performance</p>
+          <h1>30초 넘게 타임아웃되던 응답을 1초 미만으로 줄였어요.</h1>
+          <p class="lead">같은 계정과 데이터로 배포 전후를 측정하고, 운영 환경과 실제 앱 화면까지 확인했어요.</p>
         </div>
         <dl class="stat-stack">
           <div><dt>Before</dt><dd>30초+ timeout</dd></div>
-          <div><dt>Production</dt><dd>주로 300–500ms</dd></div>
-          <div><dt>User impact</dt><dd>앱 화면 복구</dd></div>
+          <div><dt>Production</dt><dd>주로 300~500ms</dd></div>
+          <div><dt>Rows loaded</dt><dd>약 1/1,000</dd></div>
         </dl>
       </div>
     </section>
@@ -34,28 +34,44 @@
     <section class="section section--parchment">
       <div class="reading">
         <p class="eyebrow">Problem</p>
-        <h2>느린 API가 아니라 보이지 않는 화면이 문제였습니다.</h2>
-        <p>‘내가 찜한 목록’ API는 응답에 30초 이상 걸려 쿼리 타임아웃이 발생했습니다. 앱은 데이터를 받지 못해 목록 화면을 제대로 그리지 못했습니다.</p>
-        <p>성능 목표는 추상적인 “빠르게”가 아니었습니다. 사용자가 실제로 화면을 볼 수 있도록 타임아웃을 제거하고, 같은 데이터 조건에서 1초 미만으로 응답하게 만드는 것이었습니다.</p>
-        <p class="callout"><strong>측정 방법</strong><br>Postman에서 동일한 사용자 계정과 데이터 조건으로 수정 전후를 반복 요청했습니다. 수정 후에는 주로 300~500ms였고 모든 반복 측정이 1초 미만이었습니다.</p>
+        <h2>문제는 느린 API보다 보이지 않는 화면이었어요.</h2>
+        <p>‘내가 찜한 목록’ API는 응답이 30초를 넘기며 요청이 실패했어요. 앱은 데이터를 받지 못해 목록 화면을 제대로 그리지 못했어요.</p>
+        <p>모든 사용자에게 생기는 문제는 아니었어요. 찜 목록에 담기는 매장의 결제 이력은 편차가 극단적이라, 상위 한 곳이 그다음 매장의 열 배, 보통 매장의 백 배를 넘어요. 그래서 특정 매장을 찜한 사용자에게서만 재현됐고, 평균적인 목록으로 테스트하면 보이지 않았어요.</p>
+        <p>목표를 막연히 “빠르게”로 잡지 않았어요. 사용자가 실제로 화면을 볼 수 있도록 타임아웃을 없애고, 같은 데이터 조건에서 1초 안에 응답하도록 정했어요.</p>
+        <p class="callout"><strong>측정 방법과 범위</strong><br>응답 시간은 Postman에서 같은 사용자 계정과 데이터로 수정 전후를 반복 요청해 확인했어요. 수정 후 모든 측정이 1초 안에 끝났고, 300~500ms는 운영 배포 직후 검증 구간에서 주로 확인한 값이에요.<br>데이터 접근량은 별도로 확인했어요. 수정 전후 코드를 같은 합성 데이터에 올려 같은 응답이 나오는 것을 확인한 뒤, 실행된 쿼리 수와 애플리케이션이 읽어 들인 행 수를 셌어요. 공개 자료에는 배수만 싣고 실제 건수는 제외했어요.</p>
       </div>
     </section>
 
     <section class="section section--dark">
-      <div class="container two-column">
-        <div>
+      <div class="container">
+        <div class="section-head">
           <p class="eyebrow">Root cause</p>
-          <h2>직렬화 과정에 반복 DB 조회가 숨어 있었습니다.</h2>
-          <p class="support muted">목록 쿼리 자체만 보면 병목이 명확하지 않았습니다. 응답을 만드는 serializer와 도메인 메서드까지 추적하자, 각 항목이 같은 관계와 계산 데이터를 반복 조회하는 N+1 형태의 비용이 드러났습니다.</p>
+          <h2>선조회가 비용만 내고 쓰이지 않고 있었어요.</h2>
+          <p class="support muted">목록 쿼리만 봐서는 병목이 보이지 않았어요. serializer와 도메인 메서드까지 따라가자, 결제 이력을 통째로 미리 읽어 두면서도 정작 응답을 만들 때는 그 데이터를 쓰지 않고 다시 조회하고 있었어요. 상품이 걸린 관계가 서로 달라 선조회한 값이 닿지 않는 경로였어요.</p>
         </div>
-        <div class="visual" aria-label="성능 문제의 호출 경로">
-          <p class="visual-label">Request path</p>
-          <div class="flow">
-            <div class="flow-step"><small>List query</small><strong>찜 목록 조회</strong></div>
-            <div class="flow-arrow" aria-hidden="true">↓ 항목마다 반복 ↓</div>
-            <div class="flow-step"><small>Serializer</small><strong>관계 데이터 재조회</strong></div>
-            <div class="flow-arrow" aria-hidden="true">↓ 누적 비용 ↓</div>
-            <div class="flow-step"><small>Result</small><strong>30초 이상 · timeout</strong></div>
+        <div class="system-compare" role="group" aria-label="찜 목록 API의 개선 전후 데이터 접근 구조">
+          <div class="system-panel">
+            <span>Before · 미리 읽고, 또 조회</span>
+            <div class="system-map__flow">
+              <div class="system-node"><small>Prefetch</small><strong>결제 이력 통째로 적재</strong><p>결제가 많은 매장일수록 급격히 증가</p></div>
+              <span class="system-arrow" aria-hidden="true"></span>
+              <div class="system-node"><small>Per item</small><strong>Serializer · 도메인 메서드</strong><p>선조회한 값을 쓰지 못하고 관계마다 재조회</p></div>
+              <div class="system-query-grid" role="group" aria-label="반복된 조회 대상">
+                <span>상품</span><span>잔액</span><span>결제 집계</span>
+              </div>
+              <span class="system-arrow" aria-hidden="true"></span>
+              <div class="system-node"><small>Result</small><strong>30초 이상 · timeout</strong><p>결제가 많은 매장을 찜한 사용자에게서 재현</p></div>
+            </div>
+          </div>
+          <div class="system-panel">
+            <span>After · 걷어내고 DB에 맡김</span>
+            <div class="system-map__flow">
+              <div class="system-node system-node--primary"><small>Query plan</small><strong>원본 적재 제거 · DB에서 집계</strong><p>판매량을 Subquery로 집계해 값만 가져옴</p></div>
+              <span class="system-arrow" aria-hidden="true"></span>
+              <div class="system-node"><small>Serializer</small><strong>선조회한 잔액을 실제로 재사용</strong><p>재조회 대신 이미 읽은 값으로 계산</p></div>
+              <span class="system-arrow" aria-hidden="true"></span>
+              <div class="system-node"><small>Result</small><strong>모든 측정 1초 미만</strong><p>읽어 들인 행 약 1/1,000 · 쿼리 약 1/3</p></div>
+            </div>
           </div>
         </div>
       </div>
@@ -65,12 +81,12 @@
       <div class="container">
         <div class="section-head">
           <p class="eyebrow">Fix</p>
-          <h2>필요한 관계를 한 번에 읽고, 이미 읽은 데이터로 계산했습니다.</h2>
+          <h2>필요 없는 적재를 걷어내고, 집계는 DB에 맡겼어요.</h2>
         </div>
         <div class="decision-grid">
-          <article class="decision"><span>01</span><h3>실제 소비 경로 추적</h3><p>view의 queryset에서 멈추지 않고 serializer와 도메인 메서드가 응답 필드를 만드는 과정까지 확인했습니다.</p></article>
-          <article class="decision"><span>02</span><h3>관계 데이터 선조회</h3><p>필요한 단일·다중 관계를 select와 prefetch로 미리 불러와 항목별 추가 조회를 제거했습니다.</p></article>
-          <article class="decision"><span>03</span><h3>메모리 계산 재사용</h3><p>같은 값을 다시 DB에서 읽지 않고 이미 로드된 관계 데이터로 응답 값을 계산했습니다.</p></article>
+          <article class="decision"><span>01</span><h3>실제 소비 경로를 따라갔어요</h3><p>view의 queryset에서 멈추지 않고, serializer와 도메인 메서드가 응답 필드를 만드는 과정까지 확인했어요.</p></article>
+          <article class="decision"><span>02</span><h3>원본 대신 집계값을 가져왔어요</h3><p>결제 원본을 통째로 읽던 선조회를 걷어내고, 상품별 판매량은 Subquery로 DB에서 집계해 값만 받았어요.</p></article>
+          <article class="decision"><span>03</span><h3>선조회한 값이 닿게 만들었어요</h3><p>도메인 메서드가 관계를 다시 조회하는 대신, 이미 읽어 둔 잔액·상품을 그대로 쓰도록 바꿨어요.</p></article>
         </div>
       </div>
     </section>
@@ -79,16 +95,17 @@
       <div class="container">
         <div class="section-head">
           <p class="eyebrow">Validation</p>
-          <h2>환경별 확인을 실제 사용자 화면까지 이어갔습니다.</h2>
+          <h2>환경별 확인을 실제 사용자 화면까지 이어갔어요.</h2>
         </div>
-        <table class="comparison">
-          <thead><tr><th>단계</th><th>조건</th><th>확인 결과</th></tr></thead>
+        <table class="comparison" role="table">
+          <thead><tr role="row"><th scope="col">단계</th><th scope="col">조건</th><th scope="col">확인 결과</th></tr></thead>
           <tbody>
-            <tr><td>수정 전</td><td>동일 계정·데이터, Postman</td><td>30초 이상 소요 후 쿼리 타임아웃</td></tr>
-            <tr><td>로컬</td><td>수정 코드 반복 요청</td><td>모든 측정 1초 미만</td></tr>
-            <tr><td>스테이징</td><td>같은 API와 데이터 조건</td><td>정상 응답과 목록 데이터 확인</td></tr>
-            <tr><td>운영</td><td>배포 직후 반복 요청</td><td>주로 300~500ms</td></tr>
-            <tr><td>앱</td><td>실제 찜 목록 화면</td><td>빈 화면이 정상적으로 노출되는 목록으로 복구</td></tr>
+            <tr role="row"><td role="cell" data-label="단계">수정 전</td><td role="cell" data-label="조건">동일 계정·데이터, Postman</td><td role="cell" data-label="결과">30초 이상 응답 지연 후 요청 실패</td></tr>
+            <tr role="row"><td role="cell" data-label="단계">로컬</td><td role="cell" data-label="조건">수정 코드 반복 요청</td><td role="cell" data-label="결과">모든 측정 1초 미만</td></tr>
+            <tr role="row"><td role="cell" data-label="단계">스테이징</td><td role="cell" data-label="조건">같은 API와 데이터 조건</td><td role="cell" data-label="결과">정상 응답과 목록 데이터 확인</td></tr>
+            <tr role="row"><td role="cell" data-label="단계">운영</td><td role="cell" data-label="조건">배포 직후 반복 요청</td><td role="cell" data-label="결과">주로 300~500ms</td></tr>
+            <tr role="row"><td role="cell" data-label="단계">데이터 접근량</td><td role="cell" data-label="조건">수정 전후 코드, 동일 합성 데이터·동일 응답</td><td role="cell" data-label="결과">읽어 들인 행 약 1/1,000 · 쿼리 약 1/3</td></tr>
+            <tr role="row"><td role="cell" data-label="단계">앱</td><td role="cell" data-label="조건">실제 찜 목록 화면</td><td role="cell" data-label="결과">빈 화면이던 찜 목록이 정상 노출로 복구</td></tr>
           </tbody>
         </table>
       </div>
@@ -98,15 +115,15 @@
       <div class="container two-column">
         <div>
           <p class="eyebrow">Secondary example</p>
-          <h2>큰 테이블을 읽는 다른 조회도 같은 방식으로 좁혔습니다.</h2>
-          <p class="support muted">구매자 정보 조회에서는 조건과 인덱스 사용 방식을 조정해 30만 건 이상을 훑던 실행 경로를 30건 미만 조회로 줄였습니다. 메인 사례의 응답 시간과는 별개의 개선입니다.</p>
+          <h2>큰 테이블을 읽는 다른 조회도 같은 방식으로 줄였어요.</h2>
+          <p class="support muted">구매자 정보 조회에서는 조건과 인덱스 사용 방식을 바꿔, 실행 계획이 훑던 행을 1만분의 1 수준으로 줄였어요. 메인 사례의 응답 시간과는 별개의 개선이에요.</p>
         </div>
         <div class="visual">
           <p class="visual-label">Rows examined</p>
           <div class="flow">
-            <div class="flow-step"><small>Before</small><strong>300,000+</strong></div>
-            <div class="flow-arrow" aria-hidden="true">↓ 조건 · 인덱스 정렬 ↓</div>
-            <div class="flow-step"><small>After</small><strong>&lt; 30</strong></div>
+            <div class="flow-step"><small>Before</small><strong>조건 불일치 · 대량 스캔</strong></div>
+            <div class="flow-arrow"><span aria-hidden="true">↓</span> 조건 · 인덱스 정렬 <span aria-hidden="true">↓</span></div>
+            <div class="flow-step"><small>After</small><strong>약 1/10,000</strong></div>
           </div>
         </div>
       </div>
@@ -115,12 +132,12 @@
     <section class="section">
       <div class="reading">
         <p class="eyebrow">Outcome</p>
-        <h2>성능 개선을 사용자 화면 복구로 끝맺었습니다.</h2>
-        <p>30초 이상 걸려 타임아웃되던 API를 반복 측정에서 항상 1초 미만, 운영에서는 주로 300~500ms로 단축했습니다. 수치는 동일 계정과 데이터로 측정한 배포 전후 응답 시간이며, 운영 배포 후 앱 화면이 정상 노출되는 것까지 확인했습니다.</p>
+        <h2>숫자만 줄이지 않고, 사용자 화면까지 되살렸어요.</h2>
+        <p>30초 넘게 걸리던 API는 측정한 요청이 모두 1초 안에 응답했고, 운영에서는 주로 300~500ms가 나왔어요. 같은 계정과 데이터로 배포 전후를 비교했고, 운영 배포 뒤 앱 화면이 제대로 보이는 것까지 확인했어요.</p>
       </div>
     </section>
 
-    <section class="section section--parchment"><div class="container"><a class="next-case" href="reward-integrity.html"><small>Next case</small><h2>사용량이 4배 늘어난 리뷰 보상 시스템의 정합성을 지키다 →</h2></a></div></section>
+    <section class="section section--parchment"><div class="container"><a class="next-case" href="reward-integrity.html"><small>Next case</small><h2>리뷰를 고치고 보상을 회수해도 원장과 이력이 같은 값을 가리키게 했어요 →</h2></a></div></section>
   </main>
   <footer><div class="footer-inner"><span>© 2026 Han Jaehyuk</span><div class="footer-links"><a href="index.html">Home</a><a href="mailto:jh.jaehyuk213@gmail.com">Email</a><a href="resume-public.pdf">Resume</a></div></div></footer>
 </body>

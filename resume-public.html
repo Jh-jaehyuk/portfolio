@@ -2,25 +2,27 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>한재혁 — Backend Engineer Resume</title>
   <style>
     :root { --ink:#1d1d1f; --muted:#6e6e73; --blue:#0066cc; --line:#d2d2d7; font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif; color:var(--ink); }
     * { box-sizing:border-box; }
-    body { width:210mm; margin:0 auto; padding:10mm 13mm; font-size:9.2pt; line-height:1.34; letter-spacing:-.02em; word-break:keep-all; }
+    body { width:210mm; margin:0 auto; padding:10mm 13mm; font-size:9.6pt; line-height:1.38; letter-spacing:-.02em; word-break:keep-all; }
     a { color:inherit; text-decoration:none; }
     header { display:flex; justify-content:space-between; align-items:flex-end; gap:24px; padding-bottom:5mm; }
     h1,h2,h3,p { margin:0; }
     h1 { font-size:24pt; line-height:1; letter-spacing:-.04em; }
     header p { margin-top:2mm; color:var(--muted); font-size:10pt; }
     .contact { display:grid; gap:1mm; text-align:right; font-size:9pt; }
-    section { display:grid; grid-template-columns:30mm 1fr; gap:5mm; padding:3.5mm 0; border-top:.4pt solid var(--line); }
-    h2 { font-size:9.2pt; letter-spacing:.04em; text-transform:uppercase; }
-    h3 { font-size:10.5pt; }
-    .summary { font-size:9.6pt; }
+    section { display:grid; grid-template-columns:30mm 1fr; gap:5mm; padding:4mm 0; border-top:.4pt solid var(--line); }
+    h2 { font-size:9.4pt; letter-spacing:.04em; text-transform:uppercase; }
+    h3 { font-size:10.8pt; }
+    .summary { font-size:9.9pt; }
     .stack { display:grid; gap:2mm; }
     .role-head { display:flex; justify-content:space-between; gap:16px; align-items:baseline; }
     .role-head span { color:var(--muted); font-size:9.5pt; white-space:nowrap; }
+    .role-context { margin-top:.7mm; color:var(--muted); }
     ul { margin:1.5mm 0 0; padding-left:4.5mm; }
     li + li { margin-top:.8mm; }
     .skills { display:grid; gap:1mm; }
@@ -49,7 +51,7 @@
 
   <section>
     <h2>Summary</h2>
-    <div class="summary">Python 기반 백엔드 엔지니어로서 Django/DRF, Litestar, Celery를 활용해 실서비스의 결제·리뷰·정산·어필리에이트·마케팅 기능을 개발하고 운영해왔습니다. 기능 구현에 그치지 않고 데이터 정합성, 성능 병목과 서비스 경계를 실제 사용자 경로에서 추적하며, AI 개발 도구로 분석과 구현을 가속하고 운영 검증까지 책임집니다.</div>
+    <div class="summary">실서비스 결제·리뷰·구독 백엔드를 운영하며(2025.10~) 운영 장애, 데이터 정합성, 서비스 전환을 실제 사용자 경로에서 해결해 온 Python 백엔드 엔지니어입니다. Django/DRF·Litestar 기반으로 원장 정합성과 성능 문제를 다루고, 배포로 끝내지 않고 테스트·로그·Postman·앱 화면까지 직접 확인합니다.</div>
   </section>
 
   <section>
@@ -60,12 +62,13 @@
           <h3>주식회사 텐핑거스 · 서버 개발자</h3>
           <span>2025.10 — 현재</span>
         </div>
+        <p class="role-context">로컬 콘텐츠·커머스 서비스의 결제·리뷰·구독·마케팅 백엔드를 개발하고 운영합니다.</p>
         <ul>
-          <li><b>구독 도메인 MSA 전환</b> — 세 레거시 백엔드의 구독 기능을 전용 서비스로 이전하며 9개 API operation을 클라이언트 변경 없이 운영 전환했습니다.</li>
-          <li><b>사장님 셀프마케팅</b> — 제휴 매장당 월 1회 무료 캠페인의 신청·검수·모집·선정·체험·평가·완료 흐름을 서버 주도 상태 머신과 API 계약으로 구현했습니다.</li>
+          <li><b>구독 도메인 서비스 추출</b> — 세 레거시 백엔드의 이전 범위를 좁히고 호출 경로·API 계약을 비교한 뒤, 구독 전용 서비스의 API 9개를 직접 구현하고 클라이언트 변경 없는 운영 전환까지 검증했습니다.</li>
+          <li><b>API 성능 최적화</b> — 30초 이상 타임아웃되던 찜 목록 API를 동일 계정·데이터 조건의 반복 측정에서 모두 1초 미만으로 줄였습니다. 운영 배포 후에는 주로 300~500ms와 앱 화면 정상 노출을 확인했습니다.</li>
           <li><b>팝로그 어필리에이트</b> — 링크 발급, 7일 기준 구매 출처 추적, 결제 스냅샷, 상태 변경, 작성자 보상과 월 정산까지 이어지는 백엔드 전 구간을 구축했습니다.</li>
-          <li><b>API 성능 최적화</b> — 30초 이상 타임아웃되던 찜 목록 API를 동일 조건 반복 측정에서 항상 1초 미만, 운영에서 주로 300~500ms로 단축하고 앱 화면 정상 노출까지 확인했습니다.</li>
           <li><b>리뷰 보상 정합성</b> — 복제 지연, 현재 리뷰의 한도 계산, 재계산 동시성과 잔액 회수 문제를 writer read, 행 잠금, 음수 offset 원장과 정합성 작업으로 개선했습니다.</li>
+          <li><b>사장님 셀프마케팅</b> — 기획·앱 개발자와 상태·문구·행동 계약을 합의하고, 제휴 매장당 월 1회 무료 캠페인의 신청부터 완료까지를 서버 주도 상태 머신으로 구현했습니다.</li>
           <li>결제 실패 시 포인트 복구, 중복·0원 결제 제한, 벤더 알림 경로, 관리자 통계·정산 API와 공통 서비스 클라이언트를 개발하고 운영했습니다.</li>
         </ul>
       </div>
@@ -75,10 +78,10 @@
   <section>
     <h2>Skills</h2>
     <div class="skills">
-      <div><b>Backend</b>Python, Django/DRF, Litestar, Celery</div>
+      <div><b>Backend</b>Python, Django/DRF, Litestar, Celery · FastAPI(개인 프로젝트)</div>
       <div><b>Data</b>MySQL, Redis</div>
       <div><b>Infra</b>Docker, AWS ECS·RDS·ALB, GitHub Actions</div>
-      <div><b>AI workflow</b>Codex, Claude Code, Cursor, MCP</div>
+      <div><b>AI workflow</b>Codex, Claude Code, Cursor, MCP · 테스트·로그·Postman·앱 검증</div>
     </div>
   </section>
 
@@ -88,10 +91,6 @@
       <div class="project">
         <div class="role-head"><h3>Noodle · 개발 문서 검색 서비스</h3><span>2024.09 — 2025.07</span></div>
         <p>Django API와 FastAPI 추론 서버를 분리하고, GitHub 소스 기반 backlog와 로컬 Llama 보고서 생성 파이프라인을 구현했습니다.</p>
-      </div>
-      <div class="project">
-        <div class="role-head"><h3>논문 요약 및 질의응답 챗봇</h3><span>2024.07 — 2024.09</span></div>
-        <p>PDF 추출, FAISS 기반 검색과 문서 기반 질의응답 흐름을 구현하고 파일 저장·추론 경계를 분리했습니다.</p>
       </div>
       <div class="project">
         <div class="role-head"><h3>근골격계 부담작업 동작분석</h3><span>2021.11 — 2022.12</span></div>
@@ -110,7 +109,7 @@
 
   <section>
     <h2>Etc.</h2>
-    <div>SQL 개발자(SQLD) · TOEIC 825 · OPIc IM1 · 캡스톤 디자인 발표회 최우수상</div>
+    <div>SQL 개발자(SQLD) · TOEIC 825</div>
   </section>
 </body>
 </html>

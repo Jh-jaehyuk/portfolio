@@ -1,0 +1,615 @@
+:root {
+  --blue: #2563eb;
+  --blue-soft: #eaf0ff;
+  --ink: #20242b;
+  --muted: #62656b;
+  --stone: #f2f0ea;
+  --canvas: #fcfbf8;
+  --line: #d7d3ca;
+  --white: #fff;
+  color: var(--ink);
+  background: #d8d6d0;
+  font-family: "SF Pro Text", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-size: 10pt;
+  line-height: 1.45;
+  letter-spacing: -.015em;
+  word-break: keep-all;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+* { box-sizing: border-box; }
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body { background: #d8d6d0; }
+
+a {
+  color: var(--blue);
+  text-decoration: none;
+}
+
+p { margin: 0; }
+
+h1,
+h2,
+h3,
+strong {
+  font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: -.035em;
+}
+
+h1 {
+  font-size: 26pt;
+  line-height: 1.1;
+}
+
+h2 {
+  margin-bottom: 2.5mm;
+  font-size: 13.5pt;
+  line-height: 1.18;
+}
+
+.pdf-page {
+  position: relative;
+  width: 210mm;
+  height: 297mm;
+  margin: 10mm auto;
+  padding: 14mm 16mm 15mm;
+  overflow: hidden;
+  break-after: page;
+  background: var(--canvas);
+  box-shadow: 0 4mm 12mm rgba(0, 0, 0, .14);
+}
+
+.pdf-page:last-child { break-after: auto; }
+
+.page-kicker,
+.page-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 7.5pt;
+  font-weight: 600;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.page-footer {
+  position: absolute;
+  right: 16mm;
+  bottom: 7mm;
+  left: 16mm;
+  padding-top: 3mm;
+  border-top: .25mm solid var(--line);
+  letter-spacing: .02em;
+  text-transform: none;
+}
+
+.eyebrow {
+  margin: 0 0 3mm;
+  color: var(--blue);
+  font-size: 8pt;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.cover {
+  background:
+    linear-gradient(var(--canvas), var(--canvas)) padding-box,
+    var(--canvas);
+}
+
+/* 프로필 블록이 들어가 위 여백을 줄이고, 하단 22% 공백을 회수한다 */
+.cover-copy { margin-top: 18mm; }
+
+/* 이전엔 이름이 8pt eyebrow라 페이지에서 가장 작은 글자였다 */
+.cover-name {
+  font-size: 24pt;
+  line-height: 1.1;
+}
+
+.cover-name span {
+  margin-left: 3mm;
+  color: var(--muted);
+  font-size: 11pt;
+  font-weight: 500;
+}
+
+.cover-profile {
+  margin-top: 2.5mm;
+  color: var(--muted);
+  font-size: 10.5pt;
+}
+
+.cover-claim {
+  max-width: 165mm;
+  margin-top: 9mm;
+  font-size: 27pt;
+  line-height: 1.1;
+}
+
+.cover-lead {
+  margin-top: 8mm;
+  color: var(--muted);
+  font-size: 14pt;
+  line-height: 1.5;
+}
+
+.impact-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3mm;
+  margin-top: 18mm;
+}
+
+.impact-grid article {
+  min-height: 43mm;
+  display: flex;
+  flex-direction: column;
+  padding: 5mm;
+  border: .25mm solid var(--line);
+  border-radius: 4mm;
+  background: var(--white);
+}
+
+.impact-grid small,
+.case-stats small,
+.node small,
+.rule-grid small,
+.proof-grid small,
+.invariant small {
+  color: var(--muted);
+  font-size: 7.2pt;
+  font-weight: 700;
+  letter-spacing: .025em;
+}
+
+.impact-grid strong {
+  margin: 7mm 0 3mm;
+  font-size: 20pt;
+  line-height: 1;
+}
+
+.impact-grid p {
+  margin-top: auto;
+  color: var(--muted);
+  font-size: 8pt;
+  line-height: 1.45;
+}
+
+.cover-bottom {
+  position: absolute;
+  right: 16mm;
+  bottom: 22mm;
+  left: 16mm;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 12mm;
+  padding-top: 7mm;
+  border-top: .25mm solid var(--line);
+  color: var(--muted);
+}
+
+.contact-links {
+  display: grid;
+  gap: 1.5mm;
+  text-align: right;
+}
+
+.case-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 55mm;
+  gap: 8mm;
+  align-items: end;
+  margin-bottom: 8mm;
+  padding-bottom: 7mm;
+  border-bottom: .35mm solid var(--ink);
+}
+
+.case-stats {
+  display: grid;
+  gap: 2.2mm;
+}
+
+.case-stats span {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 3mm;
+  padding-bottom: 1.5mm;
+  border-bottom: .25mm solid var(--line);
+}
+
+.case-stats strong { font-size: 10pt; }
+
+.two-col {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 5mm;
+}
+
+.intro-grid article {
+  min-height: 30mm;
+  padding: 5mm;
+  border-radius: 3mm;
+  background: var(--stone);
+}
+
+.intro-grid p { color: var(--muted); }
+
+.section-label {
+  display: flex;
+  align-items: baseline;
+  gap: 4mm;
+  margin: 7mm 0 3mm;
+}
+
+.section-label span {
+  color: var(--blue);
+  font-size: 7.5pt;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.section-label strong { font-size: 11pt; }
+
+.legacy-grid,
+.proof-grid,
+.decision-row,
+.rule-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3mm;
+}
+
+.node {
+  min-height: 22mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4mm;
+  border: .25mm solid var(--line);
+  border-radius: 2.5mm;
+  background: var(--white);
+}
+
+.node strong {
+  margin-top: 1.4mm;
+  font-size: 10pt;
+  line-height: 1.2;
+}
+
+.node p {
+  margin-top: 1.5mm;
+  color: var(--muted);
+  font-size: 8pt;
+}
+
+.node--primary {
+  border: .55mm solid var(--blue);
+  background: var(--blue-soft);
+}
+
+.node--dashed { border-style: dashed; }
+
+.architecture-row,
+.pipeline,
+.state-flow {
+  display: flex;
+  align-items: stretch;
+  gap: 2mm;
+}
+
+.architecture-row > .node,
+.architecture-row > .branch,
+.pipeline > .node,
+.state-flow > .node { flex: 1; }
+
+.branch {
+  display: grid;
+  gap: 2mm;
+}
+
+.branch .node {
+  min-height: 10mm;
+  padding: 2.5mm 3mm;
+}
+
+.arrow,
+.down {
+  display: grid;
+  place-items: center;
+  color: var(--blue);
+  font-size: 14pt;
+  font-weight: 700;
+}
+
+.arrow { width: 5mm; }
+
+.proof-grid { margin-top: 3mm; }
+
+.proof-grid article {
+  display: grid;
+  gap: 1mm;
+  padding: 3mm 4mm;
+  border-top: .6mm solid var(--blue);
+  background: var(--stone);
+}
+
+.proof-grid strong { font-size: 9pt; }
+
+.note {
+  display: grid;
+  grid-template-columns: 34mm minmax(0, 1fr);
+  gap: 5mm;
+  align-items: start;
+  margin-top: 6mm;
+  padding: 4mm 5mm;
+  border-left: 1.2mm solid var(--blue);
+  background: var(--stone);
+}
+
+.note p { color: var(--muted); }
+
+.note--measurement { margin: 0 0 5mm; }
+
+.compare-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4mm;
+}
+
+.compare-panel {
+  padding: 4mm;
+  border: .25mm solid var(--line);
+  border-radius: 3mm;
+  background: var(--stone);
+}
+
+.compare-panel > span:first-child {
+  display: block;
+  margin-bottom: 2.5mm;
+  color: var(--muted);
+  font-size: 8pt;
+  font-weight: 700;
+}
+
+.compare-panel--after { background: var(--blue-soft); }
+
+.compare-panel .node {
+  min-height: 15mm;
+  padding: 2.5mm 3mm;
+}
+
+.compare-panel .down {
+  height: 5mm;
+  font-size: 10pt;
+}
+
+.decision-row { margin: 5mm 0; }
+
+.decision-row article,
+.rule-grid article {
+  padding: 4mm;
+  border: .25mm solid var(--line);
+  border-radius: 2.5mm;
+  background: var(--white);
+}
+
+.decision-row b {
+  display: block;
+  margin-bottom: 3mm;
+  color: var(--blue);
+  font-size: 8pt;
+}
+
+.decision-row strong,
+.rule-grid strong {
+  display: block;
+  font-size: 10pt;
+}
+
+.decision-row p,
+.rule-grid p {
+  margin-top: 2mm;
+  color: var(--muted);
+  font-size: 8.2pt;
+}
+
+.compact-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 8.2pt;
+}
+
+.compact-table th,
+.compact-table td {
+  padding: 2.5mm 3mm;
+  border-top: .25mm solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.compact-table th {
+  color: var(--muted);
+  font-size: 7.5pt;
+}
+
+.pipeline .node {
+  min-height: 31mm;
+  padding: 3mm;
+  text-align: center;
+}
+
+.pipeline .arrow { width: 3mm; }
+
+.rule-grid article { min-height: 32mm; }
+
+.invariant {
+  margin-bottom: 6mm;
+  padding: 6mm;
+  border-radius: 3mm;
+  background: var(--ink);
+  color: var(--white);
+  text-align: center;
+}
+
+.invariant small {
+  display: block;
+  margin-bottom: 2mm;
+  color: #c8c5be;
+  text-transform: uppercase;
+}
+
+.invariant strong {
+  font-size: 15pt;
+  line-height: 1.35;
+}
+
+.integrity-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3mm;
+}
+
+.integrity-grid article {
+  display: grid;
+  grid-template-columns: 9mm minmax(0, 1fr);
+  gap: 2mm;
+  min-height: 27mm;
+  padding: 4mm;
+  border: .25mm solid var(--line);
+  border-radius: 2.5mm;
+  background: var(--white);
+}
+
+.integrity-grid b {
+  color: var(--blue);
+  font-size: 8pt;
+}
+
+.integrity-grid strong { font-size: 10pt; }
+
+.integrity-grid p {
+  margin-top: 1.5mm;
+  color: var(--muted);
+  font-size: 8.2pt;
+}
+
+.architecture-row--ledger .node {
+  min-height: 29mm;
+  padding: 3mm;
+}
+
+.state-flow { margin: 6mm 0 5mm; }
+
+.state-flow .node {
+  min-height: 20mm;
+  text-align: center;
+}
+
+.rule-grid--compact article {
+  min-height: 21mm;
+  padding: 3.5mm;
+}
+
+.rule-grid--compact strong {
+  margin-top: 1.5mm;
+  font-size: 9pt;
+}
+
+.closing-divider {
+  margin: 7mm 0 6mm;
+  border-top: .35mm solid var(--ink);
+}
+
+.closing-grid {
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap: 8mm;
+}
+
+.closing-grid h2 {
+  max-width: 85mm;
+  font-size: 16pt;
+}
+
+.principle-list {
+  display: grid;
+  gap: 2.5mm;
+  margin: 5mm 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.principle-list li {
+  display: grid;
+  gap: .6mm;
+  padding-bottom: 2.5mm;
+  border-bottom: .25mm solid var(--line);
+}
+
+.principle-list span {
+  color: var(--muted);
+  font-size: 8.2pt;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.8mm;
+}
+
+.tag-list span {
+  padding: 1.8mm 2.5mm;
+  border: .25mm solid var(--line);
+  border-radius: 99mm;
+  background: var(--white);
+  font-size: 7.8pt;
+}
+
+.contact-card {
+  display: grid;
+  gap: 1.8mm;
+  margin-top: 5mm;
+  padding: 4mm;
+  border-radius: 2.5mm;
+  background: var(--stone);
+}
+
+.contact-card strong {
+  margin-bottom: 1mm;
+  font-size: 9pt;
+}
+
+.contact-card a { font-size: 8pt; }
+
+@page {
+  size: A4;
+  margin: 0;
+}
+
+@media print {
+  :root { background: var(--white); }
+  body { background: var(--white); }
+  .pdf-page {
+    margin: 0;
+    box-shadow: none;
+  }
+}
