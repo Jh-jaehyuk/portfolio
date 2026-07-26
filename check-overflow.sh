@@ -12,9 +12,9 @@ sed -i '' -e 's/^  height: 297mm;$/  min-height: 297mm;/' \
   "http://localhost:${PORT:-5143}/portfolio-print.html" 2>/dev/null
 cp /tmp/_pp.bak portfolio-print.css
 n=$(exiftool -s3 -PageCount /tmp/_ovf.pdf)
-if [ "$n" = "6" ]; then
-  echo "  넘침 없음 (6p)"
+if [ "$n" = "7" ]; then
+  echo "  넘침 없음 (7p)"
 else
-  echo "  ⚠ 넘침: 확장 렌더 ${n}p (6p 기대) — 어느 페이지가 297mm 초과"
+  echo "  ⚠ 넘침: 확장 렌더 ${n}p (7p 기대) — 어느 페이지가 297mm 초과"
 fi
 rm -f /tmp/_ovf.pdf /tmp/_pp.bak

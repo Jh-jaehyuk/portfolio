@@ -56,7 +56,7 @@
           <!--PHONE-->
         </div>
       </div>
-      <footer class="page-footer"><span>한재혁 · Backend Engineer</span><span>01 / 06</span></footer>
+      <footer class="page-footer"><span>한재혁 · Backend Engineer</span><span>01 / 07</span></footer>
     </section>
 
     <section class="pdf-page">
@@ -112,7 +112,7 @@
         <strong>도구와 판단의 분담</strong>
         <p>세 저장소에 걸친 호출 경로와 계약 차이는 Codex·Claude Code로 좁혔습니다. 전용 서비스 API 구현과 이전 범위·위험 판단, 운영 검증은 직접 맡았습니다.</p>
       </aside>
-      <footer class="page-footer"><span>구독 도메인 MSA 전환</span><span>02 / 06</span></footer>
+      <footer class="page-footer"><span>구독 도메인 MSA 전환</span><span>02 / 07</span></footer>
     </section>
 
     <section class="pdf-page">
@@ -168,7 +168,7 @@
           <tr><td>데이터 접근량</td><td>수정 전후 코드·동일 응답</td><td>읽은 행 약 1/1,000·쿼리 약 1/3</td></tr>
         </tbody>
       </table>
-      <footer class="page-footer"><span>찜 목록 API 성능 개선</span><span>03 / 06</span></footer>
+      <footer class="page-footer"><span>찜 목록 API 성능 개선</span><span>03 / 07</span></footer>
     </section>
 
     <section class="pdf-page">
@@ -215,7 +215,7 @@
           <tr><td>운영 안전망</td><td>재실행 가능한 보정</td><td>적립 내역 commit 이후 동기화와 일일 reconciliation</td></tr>
         </tbody>
       </table>
-      <footer class="page-footer"><span>리뷰 보상 정합성</span><span>04 / 06</span></footer>
+      <footer class="page-footer"><span>리뷰 보상 정합성</span><span>04 / 07</span></footer>
     </section>
 
     <section class="pdf-page">
@@ -271,7 +271,7 @@
         <strong>결과</strong>
         <p>보이지 않던 콘텐츠의 기여를 결제 데이터에 남겨 작성자 보상과 월 정산으로 연결했습니다. 공개 자료에는 민감한 원수치를 제외하고, 추적·정산 구조와 확인 가능한 결과만 담았습니다.</p>
       </aside>
-      <footer class="page-footer"><span>팝로그 어필리에이트</span><span>05 / 06</span></footer>
+      <footer class="page-footer"><span>팝로그 어필리에이트</span><span>05 / 07</span></footer>
     </section>
 
     <section class="pdf-page closing">
@@ -315,11 +315,25 @@
         <article><small>Pre-release proof</small><strong>상태별 테스트 데이터와 계약 검증</strong></article>
       </div>
 
-      <div class="closing-divider"></div>
+      <aside class="note note--measurement" style="margin:6mm 0 0">
+        <strong>월 1회를 동시 요청에서도</strong>
+        <p>조회하고 만드는 사이에 요청이 두 번 들어오면 같은 달에 두 건이 생깁니다. 매장 단위 잠금을 먼저 잡고, 트랜잭션 안에서 기존 캠페인 행까지 잠근 뒤에 검사하도록 했습니다.</p>
+      </aside>
+
+      <aside class="note">
+        <strong>현재 상태</strong>
+        <p>백엔드 구현과 상태 계약은 완료했고, 앱 연동과 QA를 진행하고 있습니다. 아직 출시 성과를 말할 단계는 아니라 구조와 검증 방식만 담았습니다.</p>
+      </aside>
+
+      <footer class="page-footer"><span>사장님 셀프마케팅</span><span>06 / 07</span></footer>
+    </section>
+
+    <section class="pdf-page closing closing-page">
+      <p class="eyebrow">Closing</p>
+      <h1 class="closing-title">제품의 약속이 운영에서도<br>지켜지게 만듭니다.</h1>
       <div class="closing-grid">
         <div>
           <p class="eyebrow">Working principles</p>
-          <h2>제품의 약속이 운영에서도 지켜지게 만듭니다.</h2>
           <ul class="principle-list">
             <li><strong>실제 경로를 끝까지 따라갑니다.</strong><span>화면부터 API·비동기 작업·데이터 저장까지 확인합니다.</span></li>
             <li><strong>운영에서 한 번 더 확인합니다.</strong><span>배포가 아니라 실제 동작을 완료 기준으로 삼습니다.</span></li>
@@ -333,16 +347,19 @@
             <span>Celery</span><span>MySQL</span><span>Redis</span><span>Docker</span>
             <span>AWS ECS · RDS · ALB</span><span>GitHub Actions</span>
           </div>
-          <div class="contact-card">
-            <strong>함께 풀고 싶은 문제가 있다면 편하게 연락 주세요.</strong>
-            <a href="mailto:jh.jaehyuk213@gmail.com">jh.jaehyuk213@gmail.com</a>
-            <a href="https://github.com/Jh-jaehyuk">github.com/Jh-jaehyuk</a>
-            <a href="https://jh-jaehyuk.github.io/portfolio/">jh-jaehyuk.github.io/portfolio</a>
-            <!--PHONE-->
-          </div>
         </div>
       </div>
-      <footer class="page-footer"><span>한재혁 · Backend Engineer</span><span>06 / 06</span></footer>
+
+      <div class="contact-card contact-card--wide">
+        <strong>함께 풀고 싶은 문제가 있다면 편하게 연락 주세요.</strong>
+        <div class="contact-card__links">
+          <a href="mailto:jh.jaehyuk213@gmail.com">jh.jaehyuk213@gmail.com</a>
+          <a href="https://github.com/Jh-jaehyuk">github.com/Jh-jaehyuk</a>
+          <a href="https://jh-jaehyuk.github.io/portfolio/">jh-jaehyuk.github.io/portfolio</a>
+          <!--PHONE-->
+        </div>
+      </div>
+      <footer class="page-footer"><span>한재혁 · Backend Engineer</span><span>07 / 07</span></footer>
     </section>
   </main>
 </body>

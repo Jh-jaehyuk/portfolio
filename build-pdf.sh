@@ -42,7 +42,7 @@ PY
     exiftool -overwrite_original -Author="한재혁" -Creator="한재혁" "$out" >/dev/null
   fi
   [ "$target" != "$src" ] && rm -f "$target"
-  echo "  생성: $out ($(du -h "$out" | cut -f1), $(mdls -name kMDItemNumberOfPages -raw "$out" 2>/dev/null || echo '?')p)"
+  echo "  생성: $out ($(du -h "$out" | cut -f1), $(exiftool -s3 -PageCount "$out" 2>/dev/null || echo '?')p)"
 }
 
 if [ -n "${PHONE:-}" ]; then

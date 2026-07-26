@@ -619,3 +619,46 @@ h2 {
     box-shadow: none;
   }
 }
+
+/* ── 클로징 전용 페이지(07) ── */
+.closing-page .eyebrow { margin-bottom: 3mm; }
+
+.closing-title {
+  max-width: 150mm;
+  margin-bottom: 14mm;
+  font-size: 26pt;
+  line-height: 1.12;
+}
+
+.closing-page .closing-grid {
+  grid-template-columns: 1fr 1fr;
+  gap: 14mm;
+}
+
+.closing-page .tag-list { gap: 2.4mm; }
+
+.closing-page .principle-list { margin-top: 4mm; gap: 5.5mm; }
+
+.closing-page .principle-list li { gap: 1.4mm; padding-bottom: 5.5mm; }
+
+/* 마지막 인상을 남기는 자리라 우측 하단 종속 요소가 아니라 전폭 블록으로 */
+.contact-card--wide {
+  /* 바닥 고정하면 중간에 큰 빈 공간이 생겨 실수처럼 보인다. 흐름대로 둔다 */
+  margin-top: 26mm;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10mm;
+  padding: 7mm 8mm;
+  border-radius: 3mm;
+  background: var(--blue-soft);
+}
+
+.contact-card--wide strong { font-size: 13pt; }
+
+.contact-card__links {
+  display: grid;
+  gap: 1.5mm;
+  text-align: right;
+  font-size: 9.5pt;
+}
