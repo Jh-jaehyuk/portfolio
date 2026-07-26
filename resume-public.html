@@ -69,11 +69,11 @@
         </div>
         <p class="role-context">로컬 콘텐츠·커머스 서비스의 결제·리뷰·구독·마케팅 백엔드를 개발하고 운영합니다.</p>
         <ul>
-          <li><b>구독 도메인 서비스 추출</b> — 세 레거시 백엔드의 이전 범위를 좁히고 호출 경로·API 계약을 비교한 뒤, 구독 전용 서비스의 API 9개를 직접 구현하고 클라이언트 변경 없는 운영 전환까지 검증했습니다.</li>
-          <li><b>API 성능 최적화</b> — 30초 이상 타임아웃되던 찜 목록 API를 동일 계정·데이터 조건의 반복 측정에서 모두 1초 미만으로 줄였습니다. 운영 배포 후에는 주로 300~500ms와 앱 화면 정상 노출을 확인했습니다.</li>
-          <li><b>팝로그 어필리에이트</b> — 링크 발급, 7일 기준 구매 출처 추적, 결제 스냅샷, 상태 변경, 작성자 보상과 월 정산까지 이어지는 백엔드 전 구간을 구축했습니다.</li>
-          <li><b>리뷰 보상 정합성</b> — 복제 지연, 현재 리뷰의 한도 계산, 재계산 동시성과 잔액 회수 문제를 writer read, 행 잠금, 음수 offset 원장과 정합성 작업으로 개선했습니다.</li>
-          <li><b>사장님 셀프마케팅</b> — 기획·앱 개발자와 상태·문구·행동 계약을 합의하고, 제휴 매장당 월 1회 무료 캠페인의 신청부터 완료까지를 서버 주도 상태 머신으로 구현했습니다.</li>
+          <li><b>구독 도메인 서비스 추출</b> — 세 레거시에 흩어진 구독 API 9개를 전용 서비스로 직접 구현하고, ALB 경로 분기로 클라이언트 변경 없이 전환했습니다. 이전 전후 응답을 자동 비교하되 원본 버그 때문에 일부러 다르게 만든 부분은 선언으로 구분하고, 그 선언이 무효해지면 실패로 처리해 제거를 강제했습니다.</li>
+          <li><b>API 성능 최적화</b> — 30초 이상 타임아웃되던 찜 목록 API의 원인이 결제 이력을 통째로 미리 읽으면서도 응답 계산에서는 다시 조회하는 구조임을 찾았습니다. 그 선조회를 걷어내고 판매량을 DB 집계로 옮겨, 읽어 들인 행을 약 1/1,000로 줄이고 모든 측정을 1초 미만(운영 300~500ms)으로 만들었습니다.</li>
+          <li><b>리뷰 보상 정합성</b> — 복제 지연, 수정 중 리뷰의 한도 오염, 재계산 동시성, 잔액 회수를 차례로 해결했습니다. 회수를 음수 원장으로 쌓으면 적립 행이 여러 개가 되어 적립 행 잠금으로는 직렬화가 안 되므로 리뷰 행을 잠갔고, 순 적립액이 기대값과 같으면 아무 행도 만들지 않아 재실행이 안전하게 했습니다.</li>
+          <li><b>팝로그 어필리에이트</b> — 링크 발급, 7일 기준 구매 출처 추적, 결제 시점 정책 스냅샷, 작성자 보상과 월 정산까지 백엔드 전 구간을 구축했습니다. 전환 원장에 유일 제약을 걸어 알림 재전송과 보정 재실행에도 한 건만 남게 하고, 취소는 삭제 대신 시각·사유로 남겼습니다.</li>
+          <li><b>사장님 셀프마케팅</b> — 기획·앱 개발자와 상태·문구·행동 계약을 합의하고, 시간과 상태로 진행 단계를 서버가 결정하도록 구현했습니다. 매장당 월 1회 제한은 조회와 생성 사이의 경합을 막기 위해 매장 단위 잠금과 행 잠금을 함께 걸었습니다.</li>
           <li><b>운영 개선</b> — 결제 실패 시 포인트 복구, 중복·0원 결제 제한, 벤더 알림 경로, 관리자 통계·정산 API와 공통 서비스 클라이언트를 개발하고 운영했습니다.</li>
         </ul>
       </div>
@@ -83,7 +83,7 @@
   <section>
     <h2>Skills</h2>
     <div class="skills">
-      <div><b>Backend</b>Python, Django/DRF, Litestar, Celery · FastAPI(개인 프로젝트)</div>
+      <div><b>Backend</b>Python, Django/DRF, Litestar, Celery · FastAPI(팀 프로젝트)</div>
       <div><b>Data</b>MySQL, Redis</div>
       <div><b>Infra</b>Docker, AWS ECS·RDS·ALB, GitHub Actions</div>
       <div><b>AI workflow</b>Codex, Claude Code, Cursor, MCP · 테스트·로그·Postman·앱 검증</div>
@@ -94,8 +94,8 @@
     <h2>Projects</h2>
     <div>
       <div class="project">
-        <div class="role-head"><h3>Noodle · 백로그·회의록 자동 생성 서비스 <span class="meta">팀 프로젝트</span></h3><span>2024.09 — 2025.07</span></div>
-        <p>SK네트웍스 AI 캠프 팀 프로젝트입니다. GitHub 소스와 회의록을 입력받아 백로그와 결과 리포트를 생성합니다. 수십 초가 걸리는 로컬 LLM 추론이 일반 요청을 막지 않도록 Django API와 FastAPI 추론 서버를 분리하고, 큐에 넣어 워커가 처리한 뒤 Django로 결과를 콜백하는 구조로 연결했습니다. 로컬 구동을 전제로 Llama 3.1 8B(4bit)·Gemma 2·Phi-3.5·Qwen2 등을 비교해 모델을 골랐습니다. 배포해 운영했고 현재는 내려간 상태입니다.</p>
+        <div class="role-head"><h3>Noodle · 백로그·회의록 자동 생성 서비스 <span class="meta">팀 프로젝트</span></h3><span>2024.09 — 2024.12</span></div>
+        <p>SK네트웍스 AI 캠프 팀 프로젝트. GitHub 소스와 회의록으로 백로그·결과 리포트를 생성합니다. 수십 초가 걸리는 로컬 LLM 추론이 일반 요청을 막지 않도록 Django API와 FastAPI 추론 서버를 분리하고 큐·워커·콜백으로 연결했습니다. 로컬 구동을 전제로 Llama 3.1 8B(4bit)·Gemma 2·Phi-3.5·Qwen2를 비교해 모델을 골랐습니다. 배포해 운영했습니다(현재 중단).</p>
         <p class="links"><a href="https://github.com/Jh-jaehyuk/noodle-backend">noodle-backend</a> · <a href="https://github.com/Jh-jaehyuk/noodle-fastapi">noodle-fastapi</a> · <a href="https://github.com/Jh-jaehyuk/noodle-ai-client">noodle-ai-client</a></p>
       </div>
       <div class="project">
