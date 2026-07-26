@@ -21,7 +21,7 @@
         <div>
           <p class="eyebrow">Case 03 · Data integrity</p>
           <h1>사용량이 약 4배 늘어난 뒤 드러난 리뷰 보상 정합성 문제를 해결했어요.</h1>
-          <p class="lead">복제 지연과 재계산 동시성, 교차 저장소 원장 문제를 하나씩 불변식으로 바꿔 해결했어요.</p>
+          <p class="lead">복제 지연과 재계산 동시성, 교차 저장소 반영 문제를 하나씩 불변식으로 바꿔 해결했어요.</p>
         </div>
         <dl class="stat-stack">
           <div><dt>Comparison window</dt><dd>동일 조건 7일</dd></div>
@@ -36,7 +36,7 @@
         <p class="eyebrow">Context</p>
         <h2>보상을 주는 것보다 고치고 회수하는 일이 더 어려웠어요.</h2>
         <p>리뷰 보상 확대 뒤 동일한 조건의 7일 비교에서 프로젝트 사용량이 약 4배 늘었어요. 사용량이 커지면서 수정·재계산·회수 경로에 숨어 있던 정합성 문제가 운영에서 드러났어요.</p>
-        <p>이 수치는 프로젝트 전체의 성과예요. 저는 리뷰가 수정·삭제되거나 미디어 인증 상태가 바뀌어도 보상 원장과 리뷰 이력이 같은 결과를 가리키게 만드는 일을 맡았어요.</p>
+        <p>이 수치는 프로젝트 전체의 성과예요. 저는 리뷰가 수정·삭제되거나 미디어 인증 상태가 바뀌어도 적립 내역과 리뷰 이력이 같은 결과를 가리키게 만드는 일을 맡았어요.</p>
         <p class="callout"><strong>핵심 불변식</strong><br>같은 리뷰 상태라면 보상을 여러 번 다시 계산해도 최종 잔액과 이력은 한 번 계산한 결과와 같아야 해요.<br>재계산할 때 지금까지의 순 적립액을 먼저 구해서, 있어야 할 금액과 같으면 아무 행도 만들지 않아요. 다르면 그 차이만큼 음수 행으로 회수하고 다시 적립해요. 그래서 몇 번을 실행해도 결과가 같아요.</p>
       </div>
     </section>
@@ -51,7 +51,7 @@
           <li><span>01</span><div><h3>복제 지연</h3><p>리뷰를 고친 직후 읽기 복제본을 조회하면 방금 쓴 데이터가 보이지 않을 수 있었어요. 중복 판단이 틀리지 않도록 즉시 판단이 필요한 조회를 writer DB로 옮겼어요.</p></div></li>
           <li><span>02</span><div><h3>현재 리뷰의 한도 오염</h3><p>Writer DB만 사용해도 충분하지 않았어요. 수정 중인 리뷰의 기존 이력이 지급 한도에 포함되면 정상적인 재지급도 막혔어요. 그래서 현재 리뷰 ID를 한도 계산에서 뺐어요.</p></div></li>
           <li><span>03</span><div><h3>재계산 동시성</h3><p>미디어 상태가 동시에 바뀌면 이력을 덧붙이는 방식이 중복 결과를 만들 수 있었어요. 리뷰 행을 잠그고 기존 계산 이력을 교체하도록 트랜잭션 경계를 정리했어요.</p></div></li>
-          <li><span>04</span><div><h3>상태 변경과 원장 잔액</h3><p>이력 상태만 취소로 바꿔서는 이미 지급한 잔액이 줄지 않았어요. 회수액을 음수 offset 원장으로 남기고, 이미 반영한 순액과 비교해 다시 실행해도 같은 결과가 나오게 했어요.</p></div></li>
+          <li><span>04</span><div><h3>상태 변경과 잔액</h3><p>이력 상태만 취소로 바꿔서는 이미 지급한 잔액이 줄지 않았어요. 회수액을 음수 적립 행으로 남기고, 이미 반영한 순액과 비교해 다시 실행해도 같은 결과가 나오게 했어요.</p></div></li>
         </ol>
       </div>
     </section>
@@ -65,7 +65,7 @@
         <div class="decision-grid">
           <article class="decision"><span>01 · Consistent read</span><h3>즉시 판단은 writer에서</h3><p>쓰기 직후 보상 여부를 정하는 경로에서는 복제 지연을 허용하지 않았어요. 일관된 읽기 경로를 사용했어요.</p></article>
           <article class="decision"><span>02 · Serialized recalc</span><h3>보상 행이 아니라 리뷰 행을 잠갔어요</h3><p>회수를 음수 행으로 쌓다 보니 한 리뷰에 적립 행이 여러 개 생겨요. 그래서 적립 행 하나만 잠그면 동시 재계산이 서로 다른 행을 잡고 둘 다 진행돼요. 집계도 잠금 없이 읽으면 오래된 스냅샷을 보고 이중 회수가 날 수 있고요. 재계산 시작 전에 리뷰 행을 먼저 잠가서 두 경우를 한 번에 막았어요.</p></article>
-          <article class="decision"><span>03 · Ledger correction</span><h3>음수 offset 원장</h3><p>상태만 바꾸지 않고 잔액을 실제로 고치는 거래를 남겼어요. 회수와 재실행 결과도 같아졌어요.</p></article>
+          <article class="decision"><span>03 · Balance correction</span><h3>음수 적립 행</h3><p>상태만 바꾸지 않고 잔액을 실제로 고치는 거래를 남겼어요. 회수와 재실행 결과도 같아졌어요.</p></article>
         </div>
       </div>
     </section>
@@ -75,16 +75,16 @@
         <div class="section-head">
           <p class="eyebrow">Cross-store consistency</p>
           <h2>하나의 transaction으로 묶을 수 없는 경계도 인정했어요.</h2>
-          <p class="support">보상 원장과 리뷰 이력이 서로 다른 저장소에 있어 하나의 transaction으로 묶을 수 없었어요. 핵심 원장을 먼저 commit하고 성공한 뒤 이력을 맞췄어요. 빠진 데이터는 일일 정합성 작업으로 다시 맞췄어요.</p>
+          <p class="support">적립 내역과 리뷰 이력이 서로 다른 저장소에 있어 하나의 transaction으로 묶을 수 없었어요. 적립 내역을 먼저 commit하고 성공한 뒤 이력을 맞췄어요. 빠진 데이터는 일일 정합성 작업으로 다시 맞췄어요.</p>
         </div>
-        <div class="system-map" role="group" aria-label="보상 원장과 리뷰 이력의 교차 저장소 정합성 구조">
+        <div class="system-map" role="group" aria-label="적립 내역과 리뷰 이력의 교차 저장소 정합성 구조">
           <p class="system-map__label">Commit boundary and repair path</p>
           <div class="system-map__flow">
             <div class="system-node"><small>Review event</small><strong>수정 · 삭제 · 미디어 상태 변경</strong><p>리뷰 단위 잠금 후 보상 재계산</p></div>
             <span class="system-arrow" aria-hidden="true"></span>
-            <div class="system-node system-node--primary"><small>Source of value</small><strong>핵심 보상 원장</strong><p>지급과 음수 offset을 먼저 commit</p></div>
+            <div class="system-node system-node--primary"><small>Source of value</small><strong>적립 내역 (잔액의 근거)</strong><p>지급과 음수 offset을 먼저 commit</p></div>
             <span class="system-arrow" aria-hidden="true"></span>
-            <div class="system-node"><small>Projection</small><strong>리뷰 보상 이력</strong><p>원장 성공 후 현재 계산 결과로 동기화</p></div>
+            <div class="system-node"><small>Projection</small><strong>리뷰 보상 이력</strong><p>적립 내역 commit 성공 후 동기화</p></div>
           </div>
           <div class="system-domain"><span>Transaction boundary</span><strong>서로 다른 저장소를 하나의 transaction처럼 가장하지 않음</strong></div>
           <ul class="system-proof" aria-label="정합성 안전장치">
@@ -106,8 +106,8 @@
           <thead><tr role="row"><th scope="col">구분</th><th scope="col">확인된 결과</th><th scope="col">설명</th></tr></thead>
           <tbody>
             <tr role="row"><td role="cell" data-label="구분">프로젝트 성과</td><td role="cell" data-label="결과">동일 조건의 7일 비교에서 사용량 약 4배</td><td role="cell" data-label="설명">리뷰 보상 확대 프로젝트 전체 결과</td></tr>
-            <tr role="row"><td role="cell" data-label="구분">개인 기여</td><td role="cell" data-label="결과">수정·재계산·회수 경로 정합성 개선</td><td role="cell" data-label="설명">Writer read, 현재 리뷰 제외, 행 잠금, 음수 offset 원장</td></tr>
-            <tr role="row"><td role="cell" data-label="구분">운영 안전망</td><td role="cell" data-label="결과">재실행 가능한 보정 흐름</td><td role="cell" data-label="설명">핵심 원장 commit 이후 동기화와 일일 reconciliation</td></tr>
+            <tr role="row"><td role="cell" data-label="구분">개인 기여</td><td role="cell" data-label="결과">수정·재계산·회수 경로 정합성 개선</td><td role="cell" data-label="설명">Writer read, 현재 리뷰 제외, 행 잠금, 음수 적립 행</td></tr>
+            <tr role="row"><td role="cell" data-label="구분">운영 안전망</td><td role="cell" data-label="결과">재실행 가능한 보정 흐름</td><td role="cell" data-label="설명">적립 내역 commit 이후 동기화와 일일 reconciliation</td></tr>
           </tbody>
         </table>
       </div>
@@ -118,7 +118,7 @@
         <p class="eyebrow">Outcome</p>
         <h2>정합성을 중복 지급보다 더 넓은 문제로 바라봤어요.</h2>
         <p>읽기 복제본을 writer로 바꾸는 첫 수정에서 멈추지 않았어요. 현재 리뷰의 한도 계산, 동시 재계산, 실제 잔액 회수와 교차 저장소 동기화까지 따라갔어요. 같은 입력을 다시 실행해도 같은 최종 결과가 나오도록 개선했어요.</p>
-        <p class="callout">운영형 보상 시스템에서는 상태값보다 원장의 순변화가 실제 결과에 더 가까웠어요. 완벽한 분산 transaction보다 분명한 commit 순서와 반복 가능한 복구 절차가 더 현실적인 해법이라는 것도 배웠어요.</p>
+        <p class="callout">운영형 보상 시스템에서는 상태값보다 적립 내역의 합이 실제 결과에 더 가까웠어요. 완벽한 분산 transaction보다 분명한 commit 순서와 반복 가능한 복구 절차가 더 현실적인 해법이라는 것도 배웠어요.</p>
       </div>
     </section>
 

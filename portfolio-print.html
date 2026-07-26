@@ -20,7 +20,7 @@
       <div class="cover-copy">
         <p class="eyebrow">Backend Engineer</p>
         <h1 class="cover-name">한재혁 <span>Han Jaehyuk</span></h1>
-        <p class="cover-profile">(주)텐핑거스 · 데이트팝/팝로그 · 2025.10~ · 서울</p>
+        <p class="cover-profile">(주)텐핑거스 · 데이트팝(유저)·팝샵(사장님) · 2025.10~ · 서울</p>
         <h2 class="cover-claim">복잡한 운영 문제를<br>믿을 수 있는 제품 경험으로 바꿔요.</h2>
         <p class="cover-lead">Python 백엔드부터 데이터 정합성·성능·MSA 전환까지,<br>실제 사용자 경로를 끝까지 따라가요.</p>
       </div>
@@ -198,16 +198,16 @@
         <article><b>01</b><div><strong>Writer 기준 조회</strong><p>복제 지연이 보상 판단을 바꾸지 않도록 최신 상태를 writer에서 읽었어요.</p></div></article>
         <article><b>02</b><div><strong>현재 리뷰 제외</strong><p>수정 중인 리뷰가 자신의 보상 한도 계산에 다시 포함되지 않게 했어요.</p></div></article>
         <article><b>03</b><div><strong>행 잠금과 이력 교체</strong><p>동시 재계산이 중복 결과를 만들지 않도록 transaction 경계를 정리했어요.</p></div></article>
-        <article><b>04</b><div><strong>음수 offset 원장</strong><p>취소 상태만 남기지 않고 실제 회수액을 거래로 기록했어요.</p></div></article>
+        <article><b>04</b><div><strong>음수 적립 행</strong><p>취소 상태만 남기지 않고 실제 회수액을 행으로 기록했어요.</p></div></article>
       </div>
 
-      <div class="section-label"><span>Cross-store boundary</span><strong>원장 성공을 기준으로 projection을 동기화</strong></div>
+      <div class="section-label"><span>Cross-store boundary</span><strong>적립 내역 commit 성공을 기준으로 동기화</strong></div>
       <div class="architecture-row architecture-row--ledger">
         <div class="node"><small>Source</small><strong>리뷰 상태</strong><p>현재 입력</p></div>
         <span class="arrow">→</span>
-        <div class="node node--primary"><small>Core transaction</small><strong>행 잠금·순액 계산</strong><p>원장 반영 기준 확정</p></div>
+        <div class="node node--primary"><small>Core transaction</small><strong>행 잠금·순액 계산</strong><p>적립 내역 반영 기준 확정</p></div>
         <span class="arrow">→</span>
-        <div class="node"><small>Ledger</small><strong>지급·회수 원장</strong><p>양수·음수 offset</p></div>
+        <div class="node"><small>적립 내역</small><strong>지급·회수 기록</strong><p>양수·음수 행의 합이 잔액</p></div>
         <span class="arrow">→</span>
         <div class="node node--dashed"><small>Projection</small><strong>보상 이력</strong><p>commit 후 동기화</p></div>
       </div>
@@ -216,8 +216,8 @@
         <thead><tr><th>구분</th><th>확인된 결과</th><th>설명</th></tr></thead>
         <tbody>
           <tr><td>프로젝트 성과</td><td>사용량 약 4배</td><td>동일 조건의 7일 비교, 프로젝트 전체 결과</td></tr>
-          <tr><td>개인 기여</td><td>수정·재계산·회수 정합성</td><td>Writer read, 현재 리뷰 제외, 행 잠금, 음수 원장</td></tr>
-          <tr><td>운영 안전망</td><td>재실행 가능한 보정</td><td>핵심 원장 commit 이후 동기화와 일일 reconciliation</td></tr>
+          <tr><td>개인 기여</td><td>수정·재계산·회수 정합성</td><td>Writer read, 현재 리뷰 제외, 행 잠금, 음수 적립 행</td></tr>
+          <tr><td>운영 안전망</td><td>재실행 가능한 보정</td><td>적립 내역 commit 이후 동기화와 일일 reconciliation</td></tr>
         </tbody>
       </table>
       <footer class="page-footer"><span>리뷰 보상 정합성</span><span>04 / 06</span></footer>
@@ -290,7 +290,7 @@
       <div class="two-col intro-grid">
         <article>
           <h2>제품 목표</h2>
-          <p>사장님 앱 리뉴얼에서 제휴 매장이 매달 한 번 무료 마케팅을 받을 수 있다는 점을 경쟁 포인트로 만들었어요.</p>
+          <p>사장님 앱 팝샵 리뉴얼에서, 제휴 매장이 매달 한 번 무료 마케팅을 받을 수 있다는 점을 경쟁 포인트로 만들었어요.</p>
         </article>
         <article>
           <h2>제가 맡은 범위</h2>
