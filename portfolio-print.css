@@ -365,7 +365,13 @@ h2 {
   background: var(--stone);
 }
 
-.note p { color: var(--muted); }
+/* 문단이 둘 이상일 때 둘째 문단이 34mm 라벨 열로 떨어지지 않게 고정 */
+.note p {
+  grid-column: 2;
+  color: var(--muted);
+}
+
+.note p + p { margin-top: 2mm; }
 
 .note--measurement { margin: 0 0 5mm; }
 
